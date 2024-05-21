@@ -53,9 +53,9 @@
 								<FlexBox>
 									<Button id="searchData" icon="sap-icon://search" text="" iconFirst="false" type="Emphasized" class="sapUiTinyMarginEnd smallIcon"
 										press="getListData"/>
-									<Button id="saveTripInfo" icon="sap-icon://pdf-attachment" text="" iconFirst="false" type="Emphasized" class="sapUiTinyMarginEnd smallIcon"
+									<Button id="downloadPdfBtn" enabled="false" icon="sap-icon://pdf-attachment" text="" iconFirst="false" type="Emphasized" class="sapUiTinyMarginEnd smallIcon"
 										press="onDownloadPDF"/>
-									<Button id="clearData" icon="sap-icon://decline" text="" iconFirst="false" type="Emphasized" class="smallIcon" press="clearListData"/>
+									<Button id="clearData"  icon="sap-icon://decline" text="" iconFirst="false" type="Emphasized" class="smallIcon" press="clearListData"/>
 								</FlexBox>
 							</FlexBox>
 						</items>

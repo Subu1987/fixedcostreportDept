@@ -45,11 +45,11 @@
     "targetFolder": "dist",
     "excludedFolders": [],
     "excludedFiles": [],
-    "lastBuildDateTime": "Wed, 15 May 2024 09:28:59 GMT"
+    "lastBuildDateTime": "Sun, 19 May 2024 06:52:00 GMT"
   },
   "mockpreview": {
-    "mockUri": "/sap/opu/odata/sap/ZFI_FCR_SSC_SRV",
-    "metadataFilePath": "",
+    "mockUri": "/sap/opu/odata/sap/ZFI_FCR_SRV/",
+    "metadataFilePath": "localService/metadata.xml",
     "loadJSONFiles": false,
     "loadCustomRequests": false,
     "mockRequestsFilePath": ""

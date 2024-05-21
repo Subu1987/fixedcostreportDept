@@ -4,12 +4,15 @@ sap.ui.define([
 	"sap/ui/model/FilterOperator",
 	'sap/ui/model/json/JSONModel',
 	"sap/m/MessageBox",
-	"sap/viz/ui5/api/env/Format"
-], function(BaseController, Filter, FilterOperator, JSONModel, MessageBox, Format) {
+	"sap/viz/ui5/api/env/Format",
+	"sap/ui/core/ValueState"
+
+], function(BaseController, Filter, FilterOperator, JSONModel, MessageBox, Format, ValueState) {
 	"use strict";
 
 	return BaseController.extend("com.infocus.dataListApplication.controller.Home", {
 
+		/*************** Application on load  *****************/
 		onInit: function() {
 
 			this.oRouter = this.getOwnerComponent().getRouter();
@@ -127,8 +130,16 @@ sap.ui.define([
 					oGlobalDataModel.setProperty(sProperty, sInputValue);
 				}
 			}
-		},
 
+			// Apply ValueState based on input value
+			if (sInputValue.trim() === "") {
+				oInput.setValueState(ValueState.Error);
+				oInput.setValueStateText("This field cannot be empty");
+			} else {
+				oInput.setValueState(ValueState.None);
+				oInput.setValueStateText("");
+			}
+		},
 		_columnVisible: function() {
 			var oColumnVisible = this.getOwnerComponent().getModel("columnVisible");
 
@@ -360,6 +371,14 @@ sap.ui.define([
 				var newValue = oSelectedItem.getTitle();
 				ledgerInput.setValue(newValue);
 
+				//chk the blank input box validation
+				var inputLedger = this.byId("inputLedger");
+				if (newValue && newValue.trim()) {
+					inputLedger.setValueState(sap.ui.core.ValueState.None);
+				} else {
+					inputLedger.setValueState(sap.ui.core.ValueState.Error);
+				}
+
 				var oGlobalDataModel = this.getOwnerComponent().getModel("globalData");
 				if (oGlobalDataModel) {
 					oGlobalDataModel.setProperty("/ledgrNo", newValue);
@@ -373,6 +392,14 @@ sap.ui.define([
 				var ledgerInput = this.byId(this._companyCodeInputId);
 				var newValue = oSelectedItem.getTitle();
 				ledgerInput.setValue(newValue);
+
+				//chk the blank input box validation
+				var inputCompanyCode = this.byId("inputCompanyCode");
+				if (newValue && newValue.trim()) {
+					inputCompanyCode.setValueState(sap.ui.core.ValueState.None);
+				} else {
+					inputCompanyCode.setValueState(sap.ui.core.ValueState.Error);
+				}
 
 				var oGlobalDataModel = this.getOwnerComponent().getModel("globalData");
 				if (oGlobalDataModel) {
@@ -388,6 +415,14 @@ sap.ui.define([
 				var newValue = oSelectedItem.getTitle();
 				ledgerInput.setValue(newValue);
 
+				//chk the blank input box validation
+				var inputFiscalYear = this.byId("inputFiscalYear");
+				if (newValue && newValue.trim()) {
+					inputFiscalYear.setValueState(sap.ui.core.ValueState.None);
+				} else {
+					inputFiscalYear.setValueState(sap.ui.core.ValueState.Error);
+				}
+
 				var oGlobalDataModel = this.getOwnerComponent().getModel("globalData");
 				if (oGlobalDataModel) {
 					oGlobalDataModel.setProperty("/fiscalY", newValue);
@@ -402,6 +437,14 @@ sap.ui.define([
 				var newValue = oSelectedItem.getTitle();
 				ledgerInput.setValue(newValue);
 
+				//chk the blank input box validation
+				var inputFromPeriod = this.byId("inputFromPeriod");
+				if (newValue && newValue.trim()) {
+					inputFromPeriod.setValueState(sap.ui.core.ValueState.None);
+				} else {
+					inputFromPeriod.setValueState(sap.ui.core.ValueState.Error);
+				}
+
 				var oGlobalDataModel = this.getOwnerComponent().getModel("globalData");
 				if (oGlobalDataModel) {
 					oGlobalDataModel.setProperty("/fromP", newValue);
@@ -415,6 +458,14 @@ sap.ui.define([
 				var ledgerInput = this.byId(this._toYearInputId);
 				var newValue = oSelectedItem.getTitle();
 				ledgerInput.setValue(newValue);
+
+				//chk the blank input box validation
+				var inputToPeriod = this.byId("inputToPeriod");
+				if (newValue && newValue.trim()) {
+					inputToPeriod.setValueState(sap.ui.core.ValueState.None);
+				} else {
+					inputToPeriod.setValueState(sap.ui.core.ValueState.Error);
+				}
 
 				var oGlobalDataModel = this.getOwnerComponent().getModel("globalData");
 				if (oGlobalDataModel) {
@@ -546,13 +597,16 @@ sap.ui.define([
 				this.loadDefaultGraph();
 				this.byId("panelForm").setExpanded(false);
 				this.byId("splitViewSwitch").setState(true);
+
 			} else {
 
 				this.byId("panelForm").setExpanded(false);
 				this.byId("splitViewSwitch").setState(false);
+
 				this._removeHighlight();
 			}
 
+			this.byId("downloadPdfBtn").setEnabled(true);
 			then.getOwnerComponent().getModel("columnVisible").setData(oColumnVisibleData);
 			then.getOwnerComponent().getModel("globalData").setData(oGlobalData);
 		},
@@ -669,6 +723,7 @@ sap.ui.define([
 							}
 
 							that._columnVisible();
+							that.byId("downloadPdfBtn").setEnabled(false);
 						}
 					}
 				}
@@ -753,12 +808,12 @@ sap.ui.define([
 					visible: true,
 					text: obj.GlAcGroup
 				},
-				legend: {
+				/*legend: {
 					title: {
 						visible: true,
 						text: 'Months'
 					}
-				},
+				},*/
 				plotArea: {
 					dataPointStyle: {
 						rules: months.map(function(month) {
@@ -785,6 +840,7 @@ sap.ui.define([
 
 				if (flag === "X") {
 					result.push({
+
 						Month: month,
 						Value: value
 					});
@@ -812,37 +868,20 @@ sap.ui.define([
 
 		/*************** download pdf function  *****************/
 
-		onDownloadPDF: function() {
-			// Create a new jsPDF instance
-			var doc = new jsPDF();
+		onDownloadPDF: function (){
+			var oTable = this.byId("dynamicTable");
+            var oTableHtml = oTable.getDomRef().outerHTML;
 
-			// Define table columns and rows
-			var columns = ["G/L Acct", "G/L Acct Long Text", "G/L Group", "Total", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov",
-				"Dec", "Jan", "Feb", "Mar", "Specl 1", "Specl 2", "Specl 3", "Specl 4"
-			];
-			var rows = [];
+            var opt = {
+                margin: 0.5, // Adjust margins as needed
+                filename: 'table-data.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' }
+            };
 
-			// Get table reference
-			var table = this.byId("dynamicTable");
-
-			// Get table items (data)
-			var items = table.getItems();
-
-			// Loop through table items to extract data
-			items.forEach(function(item) {
-				var cells = item.getCells();
-				var rowData = [];
-				cells.forEach(function(cell) {
-					rowData.push(cell.getText());
-				});
-				rows.push(rowData);
-			});
-
-			// Add table to PDF
-			doc.autoTable(columns, rows);
-
-			// Save PDF
-			doc.save("table_data.pdf");
+            // Use html2pdf.js to generate the PDF
+            html2pdf().from(oTableHtml).set(opt).save();
 		}
 
 	});
