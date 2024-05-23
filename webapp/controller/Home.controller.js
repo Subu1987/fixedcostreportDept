@@ -5,9 +5,10 @@ sap.ui.define([
 	'sap/ui/model/json/JSONModel',
 	"sap/m/MessageBox",
 	"sap/viz/ui5/api/env/Format",
-	"sap/ui/core/ValueState"
+	"sap/ui/core/ValueState",
+	"com/infocus/dataListApplication/libs/html2pdf.bundle"
 
-], function(BaseController, Filter, FilterOperator, JSONModel, MessageBox, Format, ValueState) {
+], function(BaseController, Filter, FilterOperator, JSONModel, MessageBox, Format, ValueState, html2pdf_bundle) {
 	"use strict";
 
 	return BaseController.extend("com.infocus.dataListApplication.controller.Home", {
@@ -29,6 +30,7 @@ sap.ui.define([
 				oGlobalDataModel.setProperty("/reportS", "PRS");
 				oGlobalDataModel.setProperty("/listS", "X");
 				oGlobalDataModel.setProperty("/togglePanelVisibility", "X");
+				oGlobalDataModel.setProperty("/pdfTableName", "Detailed List");
 			}
 
 			/*this._validateInputFields();*/
@@ -493,6 +495,7 @@ sap.ui.define([
 			var oGlobalDataModel = this.getOwnerComponent().getModel("globalData");
 			if (oGlobalDataModel) {
 				oGlobalDataModel.setProperty("/listS", selectedButtonListText === "Detailed List" ? 'X' : '');
+				oGlobalDataModel.setProperty("/pdfTableName", selectedButtonListText);
 			}
 
 		},
@@ -714,6 +717,10 @@ sap.ui.define([
 							// Clear list data
 							var oListDataModel = that.getOwnerComponent().getModel("listData");
 							oListDataModel.setData({});
+							
+							// clear the chart data 
+							var oChartDataModel = that.getOwnerComponent().getModel("chartData");
+							oChartDataModel.setData({});
 
 							// Update global data model properties
 							var oGlobalDataModel = that.getOwnerComponent().getModel("globalData");
@@ -868,20 +875,91 @@ sap.ui.define([
 
 		/*************** download pdf function  *****************/
 
-		onDownloadPDF: function (){
+		onDownloadPDF: function() {
+			var oGlobalDataModel = this.getOwnerComponent().getModel("globalData");
+			var pdfTableName = oGlobalDataModel.oData.pdfTableName;
 			var oTable = this.byId("dynamicTable");
-            var oTableHtml = oTable.getDomRef().outerHTML;
+			var oTableHtml = oTable.getDomRef().outerHTML;
 
-            var opt = {
-                margin: 0.5, // Adjust margins as needed
-                filename: 'table-data.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' }
-            };
+			// Create a temporary DOM element to manipulate the table HTML
+			var tempDiv = document.createElement('div');
+			tempDiv.innerHTML = oTableHtml;
 
-            // Use html2pdf.js to generate the PDF
-            html2pdf().from(oTableHtml).set(opt).save();
+			// Remove the "Chart" column from the table header and body
+			var chartColumnIndex = -1;
+			var table = tempDiv.querySelector('table');
+			var headers = table.querySelectorAll('th, td');
+
+			headers.forEach((header, index) => {
+				if (header.innerText === "Chart") {
+					chartColumnIndex = index;
+				}
+			});
+
+			if (chartColumnIndex !== -1) {
+				// Remove the header cell
+				table.querySelector('thead tr').deleteCell(chartColumnIndex);
+
+				// Remove the corresponding cells in the body rows
+				var rows = table.querySelectorAll('tbody tr');
+				rows.forEach(row => {
+					row.deleteCell(chartColumnIndex);
+				});
+			}
+
+			var updatedTableHtml = tempDiv.innerHTML;
+
+			// Show the global BusyIndicator
+			sap.ui.core.BusyIndicator.show(0);
+
+			var opt = {
+				margin: [0.5, 0.5, 0.5, 0.5], // Adjust margins as needed
+				filename: 'Fixed Cost Report' + ' ' + pdfTableName + '.pdf',
+				image: {
+					type: 'jpeg',
+					quality: 0.98
+				},
+				html2canvas: {
+					scale: 1, // Keep scale at 1 to capture full width
+					scrollX: 0, // Capture entire width including horizontal scroll
+					scrollY: 0,
+					useCORS: true,
+					logging: true
+				},
+				jsPDF: {
+					unit: 'in',
+					format: 'a4',
+					orientation: 'landscape'
+				},
+				pagebreak: {
+					mode: ['avoid-all', 'css', 'legacy']
+				} // Ensure proper page breaks
+			};
+
+			// Use html2pdf.js to generate the PDF
+			html2pdf()
+				.from(updatedTableHtml)
+				.set(opt)
+				.toPdf()
+				.get('pdf')
+				.then((pdf) => {
+					var totalPages = pdf.internal.getNumberOfPages();
+					for (var i = 1; i <= totalPages; i++) {
+						pdf.setPage(i);
+						pdf.setFontSize(11);
+						pdf.setTextColor(100);
+						pdf.text(
+							'Page ' + i + ' of ' + totalPages,
+							pdf.internal.pageSize.getWidth() / 2,
+							pdf.internal.pageSize.getHeight() - 10
+						);
+					}
+				})
+				.save()
+				.finally(() => {
+					// Hide the global BusyIndicator
+					sap.ui.core.BusyIndicator.hide();
+				});
 		}
 
 	});

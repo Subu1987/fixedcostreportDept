@@ -102,7 +102,7 @@
 				<content>
 					<ScrollContainer horizontal="true" vertical="true" width="100%" height="auto">
 						<l:Splitter id="splitter" height="450px">
-							<Table headerText="Tabular Data(in Lacs)" id="dynamicTable" items="{listData>/}" fixedLayout="true" width="auto">
+							<Table headerText="Tabular Data(in Lacs)" id="dynamicTable" items="{listData>/}" fixedLayout="true" width="auto" class="pdfTable">
 								<columns>
 									<Column width="100px" visible="{columnVisible>/glAcct}">
 										<Text text="G/L Acct"/>

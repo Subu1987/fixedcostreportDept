@@ -22,11 +22,11 @@ sap.ui.define([
             UIComponent.prototype.init.apply(this, arguments);
 
             // Load external libraries
-            this._loadExternalLibraries().then(function() {
+            /*this._loadExternalLibraries().then(function() {
                 console.log("External libraries loaded successfully");
             }).catch(function(error) {
                 console.error("Failed to load external libraries: ", error);
-            });
+            });*/
 
             // set the device model
             this.setModel(models.createDeviceModel(), "device");
