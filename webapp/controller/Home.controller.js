@@ -529,7 +529,7 @@ sap.ui.define([
 			var oSwitch = oEvent.getSource();
 			var sId = oSwitch.getId();
 			var aSwitches = [
-				this.byId("splitViewSwitch"),
+				/*this.byId("splitViewSwitch"),*/
 				this.byId("tabularDataSwitch"),
 				this.byId("chartDataSwitch")
 			]; // Array of all switches
@@ -540,9 +540,9 @@ sap.ui.define([
 
 			// which switch was toggled and get the corresponding text
 			var sText;
-			if (sId === this.byId("splitViewSwitch").getId()) {
+			/*if (sId === this.byId("splitViewSwitch").getId()) {
 				sText = "Split View";
-			} else if (sId === this.byId("tabularDataSwitch").getId()) {
+			} else */if (sId === this.byId("tabularDataSwitch").getId()) {
 				sText = "Tabular Data";
 			} else if (sId === this.byId("chartDataSwitch").getId()) {
 				sText = "Chart Data";
@@ -568,10 +568,16 @@ sap.ui.define([
 					case "Tabular Data":
 						oSplitterLayoutData1.setSize("100%");
 						oSplitterLayoutData2.setSize("0%");
+						
+						// pdf btn
+						this.byId("downloadPdfBtn").setEnabled(true);
 						break;
 					case "Chart Data":
 						oSplitterLayoutData1.setSize("0%");
 						oSplitterLayoutData2.setSize("100%");
+						
+						// pdf btn
+						this.byId("downloadPdfBtn").setEnabled(false);
 						break;
 					default:
 						break;
@@ -589,6 +595,10 @@ sap.ui.define([
 			oColumnVisibleData.glAcctLongText = oData[0].GlText === "" ? false : true;
 			oColumnVisibleData.graphColumnVisible = oData[0].DET_FLAG === "X" ? false : true;
 			oGlobalData.togglePanelVisibility = oData[0].DET_FLAG === "X" ? "X" : "";
+			
+			// SplitterLayoutData elements
+			var oSplitterLayoutData1 = this.byId("splitterLayoutData1");
+			var oSplitterLayoutData2 = this.byId("splitterLayoutData2");
 
 			for (var i = 1; i <= 16; i++) {
 				var flagKey = "L" + (i < 10 ? '0' + i : i) + "_FLAG";
@@ -599,17 +609,25 @@ sap.ui.define([
 			if (oData[0].DET_FLAG === "") {
 				this.loadDefaultGraph();
 				this.byId("panelForm").setExpanded(false);
-				this.byId("splitViewSwitch").setState(true);
-
+				this.byId("chartDataSwitch").setState(true);
+				
+				// Update SplitterLayoutData sizes for split view
+				oSplitterLayoutData1.setSize("0%");
+				oSplitterLayoutData2.setSize("100%");
+				
+				// pdf button
+				this.byId("downloadPdfBtn").setEnabled(false);
+				
 			} else {
 
 				this.byId("panelForm").setExpanded(false);
-				this.byId("splitViewSwitch").setState(false);
-
+				this.byId("chartDataSwitch").setState(false);
+				// pdf button
+				this.byId("downloadPdfBtn").setEnabled(true);
 				this._removeHighlight();
 			}
 
-			this.byId("downloadPdfBtn").setEnabled(true);
+			
 			then.getOwnerComponent().getModel("columnVisible").setData(oColumnVisibleData);
 			then.getOwnerComponent().getModel("globalData").setData(oGlobalData);
 		},
@@ -782,13 +800,13 @@ sap.ui.define([
 			var oSplitterLayoutData2 = this.byId("splitterLayoutData2");
 
 			// set the split view switch state to true
-			this.byId("splitViewSwitch").setState(true);
+			/*this.byId("splitViewSwitch").setState(true);*/
 			this.byId("tabularDataSwitch").setState(false);
-			this.byId("chartDataSwitch").setState(false);
+			this.byId("chartDataSwitch").setState(true);
 
 			// Update SplitterLayoutData sizes for split view
-			oSplitterLayoutData1.setSize("50%");
-			oSplitterLayoutData2.setSize("50%");
+			oSplitterLayoutData1.setSize("0%");
+			oSplitterLayoutData2.setSize("100%");
 
 		},
 		extractData: function(obj) {

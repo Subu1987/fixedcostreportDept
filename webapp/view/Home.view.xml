@@ -71,14 +71,14 @@
 							</HBox>
 							<HBox id="tableSwitchBtn" visible="{= ${globalData>/togglePanelVisibility} === 'X' ? false : true }" justifyContent="Center"
 								alignItems="Center" class="sapUiTinyMarginBeginEnd">
-								<VBox alignItems="Center" justifyContent="Center" class="sapUiTinyMarginBeginEnd">
+								<!--<VBox alignItems="Center" justifyContent="Center" class="sapUiTinyMarginBeginEnd">
 									<Label text="Split View" design="Bold"/>
 								</VBox>
 								<Switch id="splitViewSwitch" change="onTabularToChartChanged" state="false">
 									<layoutData>
 										<FlexItemData growFactor="1"/>
 									</layoutData>
-								</Switch>
+								</Switch>-->
 								<VBox alignItems="Center" justifyContent="Center" class="sapUiTinyMarginBeginEnd">
 									<Label text="Tabular Data" design="Bold"/>
 								</VBox>
@@ -102,7 +102,7 @@
 				<content>
 					<ScrollContainer horizontal="true" vertical="true" width="100%" height="auto">
 						<l:Splitter id="splitter" height="450px">
-							<Table headerText="Tabular Data(in Lacs)" id="dynamicTable" items="{listData>/}" fixedLayout="true" width="auto" class="pdfTable">
+							<Table headerText="{globalData>/reportS} {globalData&gt;/fiscalY} Tabular Data(in Lacs)" id="dynamicTable" items="{listData>/}" fixedLayout="true" width="auto" class="pdfTable">
 								<columns>
 									<Column width="100px" visible="{columnVisible>/glAcct}">
 										<Text text="G/L Acct"/>
@@ -222,13 +222,13 @@
 															<!--<viz.data:DimensionDefinition name="GlAcGroup" value="{chartData>GlAcGroup}"/>-->
 														</viz.data:dimensions>
 														<viz.data:measures>
-															<viz.data:MeasureDefinition name="Value" value="{chartData>Value}"/>
+															<viz.data:MeasureDefinition name="Value (In Lacs)" value="{chartData>Value}"/>
 														</viz.data:measures>
 													</viz.data:FlattenedDataset>
 												</viz:dataset>
 												<!-- sap.viz.ui5.data.Dataset -->
 												<viz:feeds>
-													<viz.feeds:FeedItem id="value1" uid="valueAxis" type="Measure" values="Value"/>
+													<viz.feeds:FeedItem id="value1" uid="valueAxis" type="Measure" values="Value (In Lacs)"/>
 													<viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="Month"/>
 													<!--<viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="GlAcGroup"/>-->
 												</viz:feeds>
