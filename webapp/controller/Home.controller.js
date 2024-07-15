@@ -21,8 +21,10 @@ sap.ui.define([
 			// call the input parameters data
 			this.getLedgerParametersData();
 			this.getcompanyCodeParametersData();
-			this.getYearParametersData();
-			this.getPeriodParametersData();
+			/*this.getYearParametersData();*/
+			/*this.getPeriodParametersData();*/
+			this.getGLParametersData();
+			this.getDeptParametersData();
 
 			// Update the global data model
 			var oGlobalDataModel = this.getOwnerComponent().getModel("globalData");
@@ -40,9 +42,11 @@ sap.ui.define([
 		_validateInputFields: function() {
 			var inputLedger = this.byId("inputLedger");
 			var inputCompanyCode = this.byId("inputCompanyCode");
-			var inputFiscalYear = this.byId("inputFiscalYear");
-			var inputFromPeriod = this.byId("inputFromPeriod");
-			var inputToPeriod = this.byId("inputToPeriod");
+			/*var inputFiscalYear = this.byId("inputFiscalYear");*/
+			var datePickerFrom = this.byId("fromDate");
+			var datePickerTo = this.byId("toDate");
+			var inputGL = this.byId("inputGL");
+			var inputDept = this.byId("inputDept");
 
 			var isValid = true;
 			var message = '';
@@ -63,28 +67,46 @@ sap.ui.define([
 				inputCompanyCode.setValueState(sap.ui.core.ValueState.None);
 			}
 
-			if (!inputFiscalYear.getValue()) {
+			/*if (!inputFiscalYear.getValue()) {
 				inputFiscalYear.setValueState(sap.ui.core.ValueState.Error);
 				isValid = false;
 				message += 'Fiscal Year, ';
 			} else {
 				inputFiscalYear.setValueState(sap.ui.core.ValueState.None);
+			}*/
+
+			// Validate from date
+			if (!datePickerFrom.getValue()) {
+				datePickerFrom.setValueState(sap.ui.core.ValueState.Error);
+				isValid = false;
+				message += 'From Date, ';
+			} else {
+				datePickerFrom.setValueState(sap.ui.core.ValueState.None);
 			}
 
-			if (!inputFromPeriod.getValue()) {
-				inputFromPeriod.setValueState(sap.ui.core.ValueState.Error);
+			// Validate to date
+			if (!datePickerTo.getValue()) {
+				datePickerTo.setValueState(sap.ui.core.ValueState.Error);
 				isValid = false;
-				message += 'From Period, ';
+				message += 'To Date, ';
 			} else {
-				inputFromPeriod.setValueState(sap.ui.core.ValueState.None);
+				datePickerTo.setValueState(sap.ui.core.ValueState.None);
 			}
 
-			if (!inputToPeriod.getValue()) {
-				inputToPeriod.setValueState(sap.ui.core.ValueState.Error);
+			if (!inputGL.getValue()) {
+				inputGL.setValueState(sap.ui.core.ValueState.Error);
 				isValid = false;
-				message += 'To Period, ';
+				message += 'GL, ';
 			} else {
-				inputToPeriod.setValueState(sap.ui.core.ValueState.None);
+				inputGL.setValueState(sap.ui.core.ValueState.None);
+			}
+
+			if (!inputDept.getValue()) {
+				inputDept.setValueState(sap.ui.core.ValueState.Error);
+				isValid = false;
+				message += 'Dept, ';
+			} else {
+				inputDept.setValueState(sap.ui.core.ValueState.None);
 			}
 
 			if (!isValid) {
@@ -94,17 +116,75 @@ sap.ui.define([
 				return false;
 			}
 
+			// Log date values for debugging
+			console.log("From Date Value:", datePickerFrom.getValue());
+			console.log("To Date Value:", datePickerTo.getValue());
+
+			// Format dates
+			var fromDate = this.formatDate(datePickerFrom.getValue());
+			var toDate = this.formatDate(datePickerTo.getValue());
+
+			// Show error message if dates are invalid
+			if (!fromDate || !toDate) {
+				sap.m.MessageBox.show("Invalid date format. Please enter valid dates.");
+				return false;
+			}
+
 			// Set global data properties
 			var oGlobalDataModel = this.getOwnerComponent().getModel("globalData");
 			if (oGlobalDataModel) {
 				oGlobalDataModel.setProperty("/ledgrNo", inputLedger.getValue());
 				oGlobalDataModel.setProperty("/cmpnyCode", inputCompanyCode.getValue());
-				oGlobalDataModel.setProperty("/fiscalY", inputFiscalYear.getValue());
-				oGlobalDataModel.setProperty("/fromP", inputFromPeriod.getValue());
-				oGlobalDataModel.setProperty("/toP", inputToPeriod.getValue());
+				/*oGlobalDataModel.setProperty("/fiscalY", inputFiscalYear.getValue());*/
+				oGlobalDataModel.setProperty("/fromDate", fromDate);
+				oGlobalDataModel.setProperty("/toDate", toDate);
+				oGlobalDataModel.setProperty("/GL", inputGL.getValue());
+				oGlobalDataModel.setProperty("/Dept", inputDept.getValue());
 			}
 
 			return true;
+		},
+		formatDate: function(dateString) {
+			if (!dateString) {
+				console.error("Invalid Date String:", dateString);
+				return null;
+			}
+
+			var parts = dateString.split(/[-/.]/); // Handle different delimiters
+			if (parts.length === 3 && parts[2].length === 2) {
+				var year = parts[2];
+				var month = parts[0];
+				var day = parts[1];
+
+				// Convert two-digit year to four-digit
+				if (year.length === 2) {
+					var currentYear = new Date().getFullYear();
+					var currentCentury = Math.floor(currentYear / 100) * 100;
+					year = (currentCentury + parseInt(year)).toString();
+				}
+
+				// Format as "YYYYMMDD"
+				var formattedDate = year + month.padStart(2, '0') + day.padStart(2, '0');
+				return formattedDate;
+			} else if (parts.length === 3 && parts[2].length > 2) {
+				var year = parts[2];
+				var month = parts[1];
+				var day = parts[0];
+
+				// Convert two-digit year to four-digit
+				/*if (year.length === 2) {
+					var currentYear = new Date().getFullYear();
+					var currentCentury = Math.floor(currentYear / 100) * 100;
+					year = (currentCentury + parseInt(year)).toString();
+				}*/
+
+				// Format as "YYYYMMDD"
+				var formattedDate = year + month + day;
+				return formattedDate;
+			} else {
+				console.error("Invalid Date String:", dateString);
+				return null;
+			}
 		},
 		onLiveChange: function(oEvent) {
 			var oInput = oEvent.getSource();
@@ -117,12 +197,18 @@ sap.ui.define([
 				sProperty = "/ledgrNo";
 			} else if (sInputId.endsWith("--inputCompanyCode")) {
 				sProperty = "/cmpnyCode";
-			} else if (sInputId.endsWith("--inputFiscalYear")) {
+			}
+			/*else if (sInputId.endsWith("--inputFiscalYear")) {
 				sProperty = "/fiscalY";
-			} else if (sInputId.endsWith("--inputFromPeriod")) {
-				sProperty = "/fromP";
-			} else if (sInputId.endsWith("--inputToPeriod")) {
-				sProperty = "/toP";
+			}*/
+			else if (sInputId.endsWith("--fromDate")) {
+				sProperty = "/fromDate";
+			} else if (sInputId.endsWith("--toDate")) {
+				sProperty = "/toDate";
+			} else if (sInputId.endsWith("--inputGL")) {
+				sProperty = "/GL";
+			} else if (sInputId.endsWith("--inputDept")) {
+				sProperty = "/Dept";
 			}
 
 			// Update the global data model property
@@ -216,7 +302,7 @@ sap.ui.define([
 			});
 
 		},
-		getYearParametersData: function() {
+		/*getYearParametersData: function() {
 			var that = this;
 			var parameterModel = this.getOwnerComponent().getModel("parameterModel");
 			var pUrl = "/ZYEARSet";
@@ -243,8 +329,8 @@ sap.ui.define([
 				}
 			});
 
-		},
-		getPeriodParametersData: function() {
+		},*/
+		/*getPeriodParametersData: function() {
 			var that = this;
 			var parameterModel = this.getOwnerComponent().getModel("parameterModel");
 			var pUrl = "/ZPERIODSet";
@@ -271,6 +357,60 @@ sap.ui.define([
 				}
 			});
 
+		},*/
+		getGLParametersData: function() {
+			var that = this;
+			var oModel = this.getOwnerComponent().getModel();
+			var pUrl = "/F4_GLSet";
+
+			sap.ui.core.BusyIndicator.show();
+			oModel.read(pUrl, {
+				urlParameters: {
+					"sap-client": "400"
+				},
+				success: function(response) {
+					var pData = response.results;
+					console.log(pData);
+					sap.ui.core.BusyIndicator.hide();
+					// set the ledger data 
+					var oGLCodeDataModel = that.getOwnerComponent().getModel("glData");
+					oGLCodeDataModel.setData(pData);
+
+				},
+				error: function(error) {
+					sap.ui.core.BusyIndicator.hide();
+					console.log(error);
+					var errorObject = JSON.parse(error.responseText);
+					sap.m.MessageBox.error(errorObject.error.message.value);
+				}
+			});
+		},
+		getDeptParametersData: function() {
+			var that = this;
+			var oModel = this.getOwnerComponent().getModel();
+			var pUrl = "/F4_DEPTSet";
+
+			sap.ui.core.BusyIndicator.show();
+			oModel.read(pUrl, {
+				urlParameters: {
+					"sap-client": "400"
+				},
+				success: function(response) {
+					var pData = response.results;
+					console.log(pData);
+					sap.ui.core.BusyIndicator.hide();
+					// set the ledger data 
+					var oDeptCodeDataModel = that.getOwnerComponent().getModel("deptData");
+					oDeptCodeDataModel.setData(pData);
+
+				},
+				error: function(error) {
+					sap.ui.core.BusyIndicator.hide();
+					console.log(error);
+					var errorObject = JSON.parse(error.responseText);
+					sap.m.MessageBox.error(errorObject.error.message.value);
+				}
+			});
 		},
 
 		/*************** set the inputId & create the fragment *****************/
@@ -293,7 +433,7 @@ sap.ui.define([
 			}
 			this.oOpenDialogComapanyCode.open();
 		},
-		handleValueDialogFiscalYear: function(oEvent) {
+		/*handleValueDialogFiscalYear: function(oEvent) {
 			this._fiscalYearInputId = oEvent.getSource().getId();
 			// open fragment
 			if (!this.oOpenDialogFiscalYear) {
@@ -301,8 +441,8 @@ sap.ui.define([
 				this.getView().addDependent(this.oOpenDialogFiscalYear);
 			}
 			this.oOpenDialogFiscalYear.open();
-		},
-		handleValueDialogFromPeriod: function(oEvent) {
+		},*/
+		/*handleValueDialogFromPeriod: function(oEvent) {
 			this._fromYearInputId = oEvent.getSource().getId();
 			// open fragment
 			if (!this.oOpenDialogFromPeriod) {
@@ -319,6 +459,24 @@ sap.ui.define([
 				this.getView().addDependent(this.oOpenDialogToPeriod);
 			}
 			this.oOpenDialogToPeriod.open();
+		},*/
+		handleValueGL: function(oEvent) {
+			this._glInputId = oEvent.getSource().getId();
+			// open fragment
+			if (!this.oOpenDialogGL) {
+				this.oOpenDialogGL = sap.ui.xmlfragment("com.infocus.dataListApplication.view.dialogComponent.DialogGL", this);
+				this.getView().addDependent(this.oOpenDialogGL);
+			}
+			this.oOpenDialogGL.open();
+		},
+		handleValueDept: function(oEvent) {
+			this._deptInputId = oEvent.getSource().getId();
+			// open fragment
+			if (!this.oOpenDialogDept) {
+				this.oOpenDialogDept = sap.ui.xmlfragment("com.infocus.dataListApplication.view.dialogComponent.DialogDept", this);
+				this.getView().addDependent(this.oOpenDialogDept);
+			}
+			this.oOpenDialogDept.open();
 		},
 
 		/*************** search value within fragment *****************/
@@ -339,15 +497,15 @@ sap.ui.define([
 			);
 			oEvent.getSource().getBinding("items").filter([oFilter]);
 		},
-		_handleValueFiscalYearSearch: function(oEvent) {
+		/*_handleValueFiscalYearSearch: function(oEvent) {
 			var sValue = oEvent.getParameter("value");
 			var oFilter = new Filter(
 				"Gjahr",
 				FilterOperator.Contains, sValue
 			);
 			oEvent.getSource().getBinding("items").filter([oFilter]);
-		},
-		_handleValueFromPeriodSearch: function(oEvent) {
+		},*/
+		/*_handleValueFromPeriodSearch: function(oEvent) {
 			var sValue = oEvent.getParameter("value");
 			var oFilter = new Filter(
 				"Monat",
@@ -359,6 +517,22 @@ sap.ui.define([
 			var sValue = oEvent.getParameter("value");
 			var oFilter = new Filter(
 				"Monat",
+				FilterOperator.Contains, sValue
+			);
+			oEvent.getSource().getBinding("items").filter([oFilter]);
+		},*/
+		_handleValueGLSearch: function(oEvent) {
+			var sValue = oEvent.getParameter("value");
+			var oFilter = new Filter(
+				"Key",
+				FilterOperator.Contains, sValue
+			);
+			oEvent.getSource().getBinding("items").filter([oFilter]);
+		},
+		_handleValueDeptSearch: function(oEvent) {
+			var sValue = oEvent.getParameter("value");
+			var oFilter = new Filter(
+				"Key",
 				FilterOperator.Contains, sValue
 			);
 			oEvent.getSource().getBinding("items").filter([oFilter]);
@@ -410,7 +584,7 @@ sap.ui.define([
 			}
 			oEvent.getSource().getBinding("items").filter([]);
 		},
-		_handleValueDialogFiscalYearClose: function(oEvent) {
+		/*_handleValueDialogFiscalYearClose: function(oEvent) {
 			var oSelectedItem = oEvent.getParameter("selectedItem");
 			if (oSelectedItem) {
 				var ledgerInput = this.byId(this._fiscalYearInputId);
@@ -431,8 +605,8 @@ sap.ui.define([
 				}
 			}
 			oEvent.getSource().getBinding("items").filter([]);
-		},
-		_handleValueDialogFromPeriodClose: function(oEvent) {
+		},*/
+		/*_handleValueDialogFromPeriodClose: function(oEvent) {
 			var oSelectedItem = oEvent.getParameter("selectedItem");
 			if (oSelectedItem) {
 				var ledgerInput = this.byId(this._fromYearInputId);
@@ -472,6 +646,50 @@ sap.ui.define([
 				var oGlobalDataModel = this.getOwnerComponent().getModel("globalData");
 				if (oGlobalDataModel) {
 					oGlobalDataModel.setProperty("/toP", newValue);
+				}
+			}
+			oEvent.getSource().getBinding("items").filter([]);
+		},*/
+		_handleValueGLClose: function(oEvent) {
+			var oSelectedItem = oEvent.getParameter("selectedItem");
+			if (oSelectedItem) {
+				var ledgerInput = this.byId(this._glInputId);
+				var newValue = oSelectedItem.getTitle();
+				ledgerInput.setValue(newValue);
+
+				//chk the blank input box validation
+				var inputGL = this.byId("inputGL");
+				if (newValue && newValue.trim()) {
+					inputGL.setValueState(sap.ui.core.ValueState.None);
+				} else {
+					inputGL.setValueState(sap.ui.core.ValueState.Error);
+				}
+
+				var oGlobalDataModel = this.getOwnerComponent().getModel("globalData");
+				if (oGlobalDataModel) {
+					oGlobalDataModel.setProperty("/GL", newValue);
+				}
+			}
+			oEvent.getSource().getBinding("items").filter([]);
+		},
+		_handleValueDeptClose: function(oEvent) {
+			var oSelectedItem = oEvent.getParameter("selectedItem");
+			if (oSelectedItem) {
+				var ledgerInput = this.byId(this._deptInputId);
+				var newValue = oSelectedItem.getTitle();
+				ledgerInput.setValue(newValue);
+
+				//chk the blank input box validation
+				var inputDept = this.byId("inputDept");
+				if (newValue && newValue.trim()) {
+					inputDept.setValueState(sap.ui.core.ValueState.None);
+				} else {
+					inputDept.setValueState(sap.ui.core.ValueState.Error);
+				}
+
+				var oGlobalDataModel = this.getOwnerComponent().getModel("globalData");
+				if (oGlobalDataModel) {
+					oGlobalDataModel.setProperty("/Dept", newValue);
 				}
 			}
 			oEvent.getSource().getBinding("items").filter([]);
@@ -542,7 +760,8 @@ sap.ui.define([
 			var sText;
 			/*if (sId === this.byId("splitViewSwitch").getId()) {
 				sText = "Split View";
-			} else */if (sId === this.byId("tabularDataSwitch").getId()) {
+			} else */
+			if (sId === this.byId("tabularDataSwitch").getId()) {
 				sText = "Tabular Data";
 			} else if (sId === this.byId("chartDataSwitch").getId()) {
 				sText = "Chart Data";
@@ -568,14 +787,14 @@ sap.ui.define([
 					case "Tabular Data":
 						oSplitterLayoutData1.setSize("100%");
 						oSplitterLayoutData2.setSize("0%");
-						
+
 						// pdf btn
 						this.byId("downloadPdfBtn").setEnabled(true);
 						break;
 					case "Chart Data":
 						oSplitterLayoutData1.setSize("0%");
 						oSplitterLayoutData2.setSize("100%");
-						
+
 						// pdf btn
 						this.byId("downloadPdfBtn").setEnabled(false);
 						break;
@@ -595,7 +814,7 @@ sap.ui.define([
 			oColumnVisibleData.glAcctLongText = oData[0].GlText === "" ? false : true;
 			oColumnVisibleData.graphColumnVisible = oData[0].DET_FLAG === "X" ? false : true;
 			oGlobalData.togglePanelVisibility = oData[0].DET_FLAG === "X" ? "X" : "";
-			
+
 			// SplitterLayoutData elements
 			var oSplitterLayoutData1 = this.byId("splitterLayoutData1");
 			var oSplitterLayoutData2 = this.byId("splitterLayoutData2");
@@ -610,14 +829,14 @@ sap.ui.define([
 				this.loadDefaultGraph();
 				this.byId("panelForm").setExpanded(false);
 				this.byId("chartDataSwitch").setState(true);
-				
+
 				// Update SplitterLayoutData sizes for split view
 				oSplitterLayoutData1.setSize("0%");
 				oSplitterLayoutData2.setSize("100%");
-				
+
 				// pdf button
 				this.byId("downloadPdfBtn").setEnabled(false);
-				
+
 			} else {
 
 				this.byId("panelForm").setExpanded(false);
@@ -627,7 +846,6 @@ sap.ui.define([
 				this._removeHighlight();
 			}
 
-			
 			then.getOwnerComponent().getModel("columnVisible").setData(oColumnVisibleData);
 			then.getOwnerComponent().getModel("globalData").setData(oGlobalData);
 		},
@@ -645,13 +863,15 @@ sap.ui.define([
 			var oModel = this.getOwnerComponent().getModel();
 			var oGlobalData = this.getOwnerComponent().getModel("globalData").getData();
 			//var oUrl = /ZFI_FCR_SRV/ZFI_FCRSet?$filter=Rldnr eq '0L' and Rbukrs eq '1100' and Ryear eq '2023' and PrctrGr eq 'FTRS' and MinPr eq '03' and MaxPr eq '10' and DET_FLAG eq 'X';
-			var oUrl = "/ZFI_FCRSet";
+			var oUrl = "/DEPTSet";
 			var ledgrNo = new Filter('Rldnr', FilterOperator.EQ, oGlobalData.ledgrNo);
 			var cmpnyCode = new Filter('Rbukrs', FilterOperator.EQ, oGlobalData.cmpnyCode);
-			var fiscalY = new Filter('Ryear', FilterOperator.EQ, oGlobalData.fiscalY);
+			/*var fiscalY = new Filter('Ryear', FilterOperator.EQ, oGlobalData.fiscalY);*/
 			var reportS = new Filter('PrctrGr', FilterOperator.EQ, oGlobalData.reportS);
-			var fromP = new Filter('MinPr', FilterOperator.EQ, oGlobalData.fromP);
-			var toP = new Filter('MaxPr', FilterOperator.EQ, oGlobalData.toP);
+			var fromDate = new Filter('FmDate', FilterOperator.EQ, oGlobalData.fromDate);
+			var toDate = new Filter('ToDate', FilterOperator.EQ, oGlobalData.toDate);
+			var GL = new Filter('Racct', FilterOperator.EQ, oGlobalData.GL);
+			var Dept = new Filter('Dept', FilterOperator.EQ, oGlobalData.Dept);
 			var listS = new Filter('DET_FLAG', FilterOperator.EQ, oGlobalData.listS);
 
 			sap.ui.core.BusyIndicator.show();
@@ -660,7 +880,7 @@ sap.ui.define([
 				urlParameters: {
 					"sap-client": "400"
 				},
-				filters: [ledgrNo, cmpnyCode, fiscalY, reportS, fromP, toP, listS],
+				filters: [ledgrNo, cmpnyCode, reportS, fromDate, toDate, GL, Dept, listS],
 				success: function(response) {
 					var oData = response.results;
 					console.log(oData);
@@ -669,6 +889,39 @@ sap.ui.define([
 					oData.forEach(function(item) {
 						that._formatDecimalProperties(item, that);
 					});
+
+					var hslData = oData.map(function(item) {
+						var newItem = {};
+						for (var prop in item) {
+							if (prop.includes("Hsl")) {
+								var newProp = prop.replace("Hsl", "");
+								newItem[newProp] = item[prop];
+							} else {
+								newItem[prop] = item[prop];
+							}
+						}
+						return newItem;
+					});
+					
+					console.log(hslData);
+
+					// Extract "Hsl" properties
+					/*var hslProperties = [];
+					oData.forEach(function(item) {
+						for (var prop in item) {
+							if (prop.includes("Hsl")) {
+								if (!hslProperties.includes(prop)) {
+									hslProperties.push(prop);
+								}
+							}
+						}
+					});
+
+					var oListDataModel = that.getOwnerComponent().getModel("listData");
+					oListDataModel.setData({
+						items: oData,
+						hslProperties: hslProperties
+					});*/
 
 					var oListDataModel = that.getOwnerComponent().getModel("listData");
 					oListDataModel.setData(oData);
@@ -721,8 +974,8 @@ sap.ui.define([
 							that.byId("inputLedger").setValue("0L");
 							that.byId("inputCompanyCode").setValue("1100");
 							that.byId("inputFiscalYear").setValue("");
-							that.byId("inputFromPeriod").setValue("01");
-							that.byId("inputToPeriod").setValue("12");
+							/*that.byId("inputFromPeriod").setValue("01");
+							that.byId("inputToPeriod").setValue("12");*/
 
 							// Deselect radio buttons
 							that.byId("PRS").setSelected(true);
@@ -735,7 +988,7 @@ sap.ui.define([
 							// Clear list data
 							var oListDataModel = that.getOwnerComponent().getModel("listData");
 							oListDataModel.setData({});
-							
+
 							// clear the chart data 
 							var oChartDataModel = that.getOwnerComponent().getModel("chartData");
 							oChartDataModel.setData({});

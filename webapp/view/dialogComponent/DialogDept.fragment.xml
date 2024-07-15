@@ -1,0 +1,16 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <SelectDialog
+        title="Select Company Code"
+        items="{deptData>/}"
+        search="_handleValueDeptSearch"
+        confirm="_handleValueDeptClose"
+        cancel="_handleValueDeptClose"
+        contentWidth="auto"
+        class="sapUiPopupWithPadding">
+        <StandardListItem
+            title="{deptData>Key}"
+            description="{deptData>Value}"
+            iconDensityAware="false"
+            iconInset="false" />
+    </SelectDialog>
+</core:FragmentDefinition>

@@ -15,7 +15,7 @@
 		},
 		"dataSources": {
 			"mainService": {
-				"uri": "/sap/opu/odata/sap/ZFI_FCR_SRV/",
+				"uri": "/sap/opu/odata/sap/ZFI_FCR_DEPT_SRV/",
 				"type": "OData",
 				"settings": {
 					"odataVersion": "2.0",
@@ -112,7 +112,10 @@
 			"yearData": {
 				"type": "sap.ui.model.json.JSONModel"
 			},
-			"periodData": {
+			"glData": {
+				"type": "sap.ui.model.json.JSONModel"
+			},
+			"deptData": {
 				"type": "sap.ui.model.json.JSONModel"
 			},
 			"chartData": {

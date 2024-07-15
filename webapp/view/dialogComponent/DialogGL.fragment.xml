@@ -1,0 +1,16 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <SelectDialog
+        title="Select Company Code"
+        items="{glData>/}"
+        search="_handleValueGLSearch"
+        confirm="_handleValueGLClose"
+        cancel="_handleValueGLClose"
+        contentWidth="auto"
+        class="sapUiPopupWithPadding">
+        <StandardListItem
+            title="{glData>Key}"
+            description="{glData>Value}"
+            iconDensityAware="false"
+            iconInset="false" />
+    </SelectDialog>
+</core:FragmentDefinition>

@@ -1,7 +1,7 @@
 <mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout" xmlns:form="sap.ui.layout.form" xmlns:core="sap.ui.core"
 	xmlns:f="sap.ui.layout.form" xmlns:viz="sap.viz.ui5.controls" xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
 	xmlns:viz.data="sap.viz.ui5.data" xmlns:chart="sap.suite.ui.commons" controllerName="com.infocus.dataListApplication.controller.Home">
-	<Page id="page" title="Fixed Cost Report" enableScrolling="true" showNavButton="false" navButtonPress="onNavBack" showFooter="false">
+	<Page id="page" title="Fixed Cost Report Department" enableScrolling="true" showNavButton="false" navButtonPress="onNavBack" showFooter="false">
 		<content>
 			<Panel id="panelForm" headerText="" class="sapUiResponsiveMargin border-lineRadius" expandable="true" expanded="true" width="auto">
 				<content>
@@ -18,21 +18,32 @@
 									<Input id="inputCompanyCode" class="sapUiSmallMarginBottom" type="Text" placeholder="Enter Value" showValueHelp="true"
 										valueHelpRequest="handleValueCompanyCode" value="1100" required="true" liveChange="onLiveChange"/>
 								</HBox>
-								<HBox direction="Column" width="18%">
+								<!--<HBox direction="Column" width="18%">
 									<Label text="Fiscar Year" design="Bold"/>
 									<Input id="inputFiscalYear" class="sapUiSmallMarginBottom" type="Text" placeholder="Enter Value" showValueHelp="true"
 										valueHelpRequest="handleValueDialogFiscalYear" required="true" liveChange="onLiveChange"/>
+								</HBox>-->
+								<HBox direction="Column" width="18%">
+									<Label text="From Date" design="Bold"/>
+									<DatePicker id="fromDate" displayFormat="long" value="" class="round sapUiSmallMarginBottom"/>
 								</HBox>
 								<HBox direction="Column" width="18%">
-									<Label text="From Period" design="Bold"/>
-									<Input id="inputFromPeriod" class="sapUiSmallMarginBottom" type="Text" placeholder="Enter Value" showValueHelp="true"
-										valueHelpRequest="handleValueDialogFromPeriod" value="01" required="true" liveChange="onLiveChange"/>
+									<Label text="To Date" design="Bold"/>
+									<DatePicker id="toDate" displayFormat="long" value="" class="round sapUiSmallMarginBottom"/>
+								</HBox>
+							</FlexBox>
+							<FlexBox width="90%" direction="Row" height="auto" id="DepartmentView" wrap="Wrap" justifyContent="Start" alignItems="Center" visible="true">
+								<HBox direction="Column" width="18%">
+									<Label text="GL" design="Bold"/>
+									<Input id="inputGL" class="sapUiSmallMarginBottom" type="Text" placeholder="Enter Value" showValueHelp="true"
+										valueHelpRequest="handleValueGL" value="" required="true" liveChange="onLiveChange"/>
 								</HBox>
 								<HBox direction="Column" width="18%">
-									<Label text="To Period" design="Bold"/>
-									<Input id="inputToPeriod" class="sapUiSmallMarginBottom" type="Text" placeholder="Enter Value" showValueHelp="true"
-										valueHelpRequest="handleValueDialogToPeriod" value="12" required="true" liveChange="onLiveChange"/>
+									<Label text="Department" design="Bold"/>
+									<Input id="inputDept" class="sapUiSmallMarginBottom" type="Text" placeholder="Enter Value" showValueHelp="true"
+										valueHelpRequest="handleValueDept" value="" required="true" liveChange="onLiveChange"/>
 								</HBox>
+								
 							</FlexBox>
 							<FlexBox width="90%" id="RadioBtn" justifyContent="SpaceAround" class="radioBtnCssRound" alignItems="Center"
 								visible="true">
@@ -102,7 +113,7 @@
 				<content>
 					<ScrollContainer horizontal="true" vertical="true" width="100%" height="auto">
 						<l:Splitter id="splitter" height="450px">
-							<Table headerText="{globalData>/reportS} {globalData&gt;/fiscalY} Tabular Data(in Lacs)" id="dynamicTable" items="{listData>/}" fixedLayout="true" width="auto" class="pdfTable">
+							<Table headerText="{globalData>/reportS} {globalData>/fromDate} - {globalData>/toDate}  Tabular Data(in Lacs)" id="dynamicTable" items="{listData>/}" fixedLayout="true" width="auto" class="pdfTable">
 								<columns>
 									<Column width="100px" visible="{columnVisible>/glAcct}">
 										<Text text="G/L Acct"/>
@@ -113,59 +124,158 @@
 									<Column width="200px">
 										<Text text="G/L Group"/>
 									</Column>
+									<Column width="200px">
+										<Text text="WBS Element"/>
+									</Column>
 									<Column width="80px" visible="{columnVisible>/graphColumnVisible}">
 										<Text text="Chart"/>
 									</Column>
 									<Column width="100px">
 										<Text text="Total"/>
 									</Column>
+									<Column width="100px">
+										<Text text="TOTAL PLANING BUDGET"/>
+									</Column>
 									<Column visible="{columnVisible>/l01VFlag}" width="80px">
-										<Text text="Apr"/>
+										<Text text="Adm"/>
 									</Column>
 									<Column visible="{columnVisible>/l02VFlag}" width="80px">
-										<Text text="May"/>
+										<Text text="Cadm"/>
 									</Column>
 									<Column visible="{columnVisible>/l03VFlag}" width="80px">
-										<Text text="Jun"/>
+										<Text text="Cbco"/>
 									</Column>
 									<Column visible="{columnVisible>/l04VFlag}" width="80px">
-										<Text text="Jul"/>
+										<Text text="Cceo"/>
 									</Column>
 									<Column visible="{columnVisible>/l05VFlag}" width="80px">
-										<Text text="Aug"/>
+										<Text text="Cdog"/>
 									</Column>
 									<Column visible="{columnVisible>/l06VFlag}" width="80px">
-										<Text text="Sep"/>
+										<Text text="Cfa"/>
 									</Column>
 									<Column visible="{columnVisible>/l07VFlag}" width="80px">
-										<Text text="Oct"/>
+										<Text text="Cgh"/>
 									</Column>
 									<Column visible="{columnVisible>/l08VFlag}" width="80px">
-										<Text text="Nov"/>
+										<Text text="Chr"/>
 									</Column>
 									<Column visible="{columnVisible>/l09VFlag}" width="80px">
-										<Text text="Dec"/>
+										<Text text="Cim"/>
 									</Column>
 									<Column visible="{columnVisible>/l10VFlag}" width="80px">
-										<Text text="Jan"/>
+										<Text text="Cit"/>
 									</Column>
 									<Column visible="{columnVisible>/l11VFlag}" width="80px">
-										<Text text="Feb"/>
+										<Text text="Clse"/>
 									</Column>
 									<Column visible="{columnVisible>/l12VFlag}" width="80px">
-										<Text text="Mar"/>
+										<Text text="Cmo"/>
 									</Column>
 									<Column visible="{columnVisible>/l13VFlag}" width="80px">
-										<Text text="Specl 1"/>
+										<Text text="Cob"/>
 									</Column>
 									<Column visible="{columnVisible>/l14VFlag}" width="80px">
-										<Text text="Specl 2"/>
+										<Text text="Csjv"/>
 									</Column>
 									<Column visible="{columnVisible>/l15VFlag}" width="80px">
-										<Text text="Specl 3"/>
+										<Text text="Csvg"/>
 									</Column>
 									<Column visible="{columnVisible>/l16VFlag}" width="80px">
-										<Text text="Specl 4"/>
+										<Text text="Ehs"/>
+									</Column>
+									<Column visible="{columnVisible>/l16VFlag}" width="80px">
+										<Text text="Faa"/>
+									</Column>
+									<Column visible="{columnVisible>/l16VFlag}" width="80px">
+										<Text text="Gmt"/>
+									</Column>
+									<Column visible="{columnVisible>/l16VFlag}" width="80px">
+										<Text text="Hic"/>
+									</Column>
+									<Column visible="{columnVisible>/l16VFlag}" width="80px">
+										<Text text="Mam"/>
+									</Column>
+									<Column visible="{columnVisible>/l16VFlag}" width="80px">
+										<Text text="Mcc"/>
+									</Column>
+									<Column visible="{columnVisible>/l16VFlag}" width="80px">
+										<Text text="Mci"/>
+									</Column>
+									<Column visible="{columnVisible>/l16VFlag}" width="80px">
+										<Text text="Mem"/>
+									</Column>
+									<Column visible="{columnVisible>/l16VFlag}" width="80px">
+										<Text text="Mem"/>
+									</Column>
+									<Column visible="{columnVisible>/l16VFlag}" width="80px">
+										<Text text="Mem"/>
+									</Column>
+									<Column visible="{columnVisible>/l16VFlag}" width="80px">
+										<Text text="Mmt"/>
+									</Column>
+									<Column visible="{columnVisible>/l16VFlag}" width="80px">
+										<Text text="Ope"/>
+									</Column>
+									<Column visible="{columnVisible>/l16VFlag}" width="80px">
+										<Text text="Pmt"/>
+									</Column>
+									<Column visible="{columnVisible>/l16VFlag}" width="80px">
+										<Text text="Qac"/>
+									</Column>
+									<Column visible="{columnVisible>/l16VFlag}" width="80px">
+										<Text text="Scm"/>
+									</Column>
+									<Column visible="{columnVisible>/l16VFlag}" width="80px">
+										<Text text="Udch"/>
+									</Column>
+									<Column visible="{columnVisible>/l16VFlag}" width="80px">
+										<Text text="Udpu"/>
+									</Column>
+									<Column visible="{columnVisible>/l16VFlag}" width="80px">
+										<Text text="Ufa"/>
+									</Column>
+									<Column visible="{columnVisible>/l16VFlag}" width="80px">
+										<Text text="Ufi"/>
+									</Column>
+									<Column visible="{columnVisible>/l16VFlag}" width="80px">
+										<Text text="Ugmt"/>
+									</Column>
+									<Column visible="{columnVisible>/l16VFlag}" width="80px">
+										<Text text="Uhic"/>
+									</Column>
+									<Column visible="{columnVisible>/l16VFlag}" width="80px">
+										<Text text="Ummt"/>
+									</Column>
+									<Column visible="{columnVisible>/l16VFlag}" width="80px">
+										<Text text="Uoep"/>
+									</Column>
+									<Column visible="{columnVisible>/l16VFlag}" width="80px">
+										<Text text="Uomi"/>
+									</Column>
+									<Column visible="{columnVisible>/l16VFlag}" width="80px">
+										<Text text="Upmc"/>
+									</Column>
+									<Column visible="{columnVisible>/l16VFlag}" width="80px">
+										<Text text="Upme"/>
+									</Column>
+									<Column visible="{columnVisible>/l16VFlag}" width="80px">
+										<Text text="Upmm"/>
+									</Column>
+									<Column visible="{columnVisible>/l16VFlag}" width="80px">
+										<Text text="Upmt"/>
+									</Column>
+									<Column visible="{columnVisible>/l16VFlag}" width="80px">
+										<Text text="Uprp"/>
+									</Column>
+									<Column visible="{columnVisible>/l16VFlag}" width="80px">
+										<Text text="Uqac"/>
+									</Column>
+									<Column visible="{columnVisible>/l16VFlag}" width="80px">
+										<Text text="Usmg"/>
+									</Column>
+									<Column visible="{columnVisible>/l16VFlag}" width="80px">
+										<Text text="Uwil"/>
 									</Column>
 								</columns>
 								<items>
@@ -174,8 +284,10 @@
 											<Text text="{listData>Racct}"/>
 											<Text text="{listData>GlText}"/>
 											<Text text="{listData>GlAcGroup}"/>
+											<Text text="{listData>Posid}"/>
 											<Button id="chartButton" class="chartButton" icon="sap-icon://vertical-bar-chart" text="" press="onChartButtonPress"/>
 											<Text text="{listData>Total}"/>
+											<Text text="{listData>TotalPlnB}"/>
 											<Text text="{listData>L01}"/>
 											<Text text="{listData>L02}"/>
 											<Text text="{listData>L03}"/>
