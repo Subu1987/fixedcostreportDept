@@ -1,6 +1,6 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
     <SelectDialog
-        title="Select Period"
+        title="Select To Period"
         items="{periodData>/}"
         search="_handleValueToPeriodSearch"
         confirm="_handleValueDialogToPeriodClose"

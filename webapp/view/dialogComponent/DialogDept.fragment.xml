@@ -1,6 +1,6 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
     <SelectDialog
-        title="Select Company Code"
+        title="Select Department"
         items="{deptData>/}"
         search="_handleValueDeptSearch"
         confirm="_handleValueDeptClose"

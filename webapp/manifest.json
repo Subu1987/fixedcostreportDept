@@ -1,7 +1,7 @@
 {
 	"_version": "1.7.0",
 	"sap.app": {
-		"id": "com.infocus.dataListApplication",
+		"id": "com.infocus.fixedCostReportDept",
 		"type": "application",
 		"i18n": "i18n/i18n.properties",
 		"applicationVersion": {
@@ -54,7 +54,7 @@
 	},
 	"sap.ui5": {
 		"rootView": {
-			"viewName": "com.infocus.dataListApplication.view.App",
+			"viewName": "com.infocus.fixedCostReportDept.view.App",
 			"type": "XML"
 		},
 		"dependencies": {
@@ -77,7 +77,7 @@
 			"i18n": {
 				"type": "sap.ui.model.resource.ResourceModel",
 				"settings": {
-					"bundleName": "com.infocus.dataListApplication.i18n.i18n"
+					"bundleName": "com.infocus.fixedCostReportDept.i18n.i18n"
 				}
 			},
 			"": {
@@ -115,7 +115,13 @@
 			"glData": {
 				"type": "sap.ui.model.json.JSONModel"
 			},
+			"glGrpData": {
+				"type": "sap.ui.model.json.JSONModel"
+			},
 			"deptData": {
+				"type": "sap.ui.model.json.JSONModel"
+			},
+			"deptNameData": {
 				"type": "sap.ui.model.json.JSONModel"
 			},
 			"chartData": {
@@ -134,7 +140,7 @@
 				"routerClass": "sap.m.routing.Router",
 				"viewType": "XML",
 				"async": true,
-				"viewPath": "com.infocus.dataListApplication.view",
+				"viewPath": "com.infocus.fixedCostReportDept.view",
 				"controlId": "app",
 				"controlAggregation": "pages",
 				"clearAggregation": false
@@ -164,7 +170,7 @@
 		}
 	},
 	"sap.platform.abap": {
-		"uri": "/sap/bc/ui5_ui5/sap/zlistdata/webapp",
+		"uri": "/sap/bc/ui5_ui5/sap/zfixedcostdept/webapp",
 		"_version": "1.1.0"
 	}
 }
