@@ -7,7 +7,7 @@ sap.ui.define([
 	"sap/viz/ui5/api/env/Format",
 	"sap/ui/core/ValueState",
 	'sap/ushell/library',
-	"com/infocus/fixedCostReportDept/libs/html2pdf.bundle"
+	"com/infocus/fixedCostReportDept/libs/html2pdf.bundle",
 
 ], function(BaseController, Filter, FilterOperator, JSONModel, MessageBox, Format, ValueState, SapUshellLib, html2pdf_bundle) {
 	"use strict";
@@ -16,30 +16,82 @@ sap.ui.define([
 
 		/*************** Application on load  *****************/
 		onInit: function() {
-
 			this.oRouter = this.getOwnerComponent().getRouter();
 
-			// call the input parameters data
-			/*this.getLedgerParametersData();*/
+			// Initialize the user ID and other parameters
+			this._initializeAppData();
+
+			// Update the global data model
+			this._updateGlobalDataModel();
+
+			// Set up UI components visibility
+			this._columnVisible();
+		},
+		/**
+		 * Initialize application data including fetching user ID and setting up parameters.
+		 * @private
+		 */
+		_initializeAppData: function() {
+			/*this._getUserIdFromLoggedInUser();*/
 			this.getcompanyCodeParametersData();
-			/*this.getYearParametersData();*/
-			/*this.getPeriodParametersData();*/
 			this.getGLParametersData();
 			this.getGLGrpParametersData();
 			this.getDeptParametersData();
+		},
 
-			// Update the global data model
+		/**
+		 * Fetch the user ID of the logged-in user using ShellUIService.
+		 * @private
+		 */
+		_getUserIdFromLoggedInUser: function() {
+			var that = this;
+
+			// the application is running within the Fiori Launchpad
+			if (sap.ushell && sap.ushell.Container) {
+				sap.ushell.Container.getServiceAsync("UserInfo").then(function(UserInfo) {
+						var userId = UserInfo.getId();
+						console.log(UserInfo);
+						//var userId = "1000";
+						that._onGlobalUserIdSet(userId);
+					})
+					.catch(function(oError) {
+						MessageBox.error("Error retrieving ShellUIService: " + oError.message);
+						console.error("Error retrieving ShellUIService: ", oError);
+					});
+			} else {
+				MessageBox.error("sap.ushell.Container is not available. Ensure you are running within the Fiori Launchpad.");
+				console.error("sap.ushell.Container is not available.");
+			}
+		},
+
+		/**
+		 * Set the retrieved user ID to the global data model.
+		 * @param {string} sUserId - The user ID to be set.
+		 * @private
+		 */
+		_onGlobalUserIdSet: function(sUserId) {
+			var oGlobalDataModel = this.getOwnerComponent().getModel("globalData");
+			if (oGlobalDataModel) {
+				oGlobalDataModel.setProperty("/userId", sUserId || "");
+			} else {
+				console.error("Global data model is not available.");
+			}
+		},
+
+		/**
+		 * Update the global data model with initial values.
+		 * @private
+		 */
+		_updateGlobalDataModel: function() {
 			var oGlobalDataModel = this.getOwnerComponent().getModel("globalData");
 			if (oGlobalDataModel) {
 				oGlobalDataModel.setProperty("/reportS", "PRS");
 				oGlobalDataModel.setProperty("/listS", "X");
 				oGlobalDataModel.setProperty("/togglePanelVisibility", "X");
 				oGlobalDataModel.setProperty("/pdfTableName", "Detailed List");
+			} else {
+				console.error("Global data model is not available.");
 			}
-
-			/*this._validateInputFields();*/
-			this._columnVisible();
-
 		},
 		_validateInputFields: function() {
 			/*var inputLedger = this.byId("inputLedger");*/
@@ -1004,14 +1056,16 @@ sap.ui.define([
 			var oModel = this.getOwnerComponent().getModel();
 			var oGlobalData = this.getOwnerComponent().getModel("globalData").getData();
 			//var oUrl = /ZFI_FCR_SRV/ZFI_FCRSet?$filter=Rldnr eq '0L' and Rbukrs eq '1100' and Ryear eq '2023' and PrctrGr eq 'FTRS' and MinPr eq '03' and MaxPr eq '10' and DET_FLAG eq 'X';
-			var oUrl = "/DEPTSet";
+			
+			var oUrl = (oGlobalData.Dept !== "" && oGlobalData.listS === "") ? "/GLAC_GR_SUMSet" : "/DEPTSet";
+
 			/*var ledgrNo = new Filter('Rldnr', FilterOperator.EQ, oGlobalData.ledgrNo);*/
 			var cmpnyCode = new Filter('Rbukrs', FilterOperator.EQ, oGlobalData.cmpnyCode);
 			/*var fiscalY = new Filter('Ryear', FilterOperator.EQ, oGlobalData.fiscalY);*/
 			var reportS = new Filter('PrctrGr', FilterOperator.EQ, oGlobalData.reportS);
 			var fromDate = new Filter('FmDate', FilterOperator.EQ, oGlobalData.fromDate);
 			var toDate = new Filter('ToDate', FilterOperator.EQ, oGlobalData.toDate);
-			var GL = new Filter('Racct', FilterOperator.EQ,  oGlobalData.listS === "X" ? oGlobalData.GL : "");
+			var GL = new Filter('Racct', FilterOperator.EQ, oGlobalData.listS === "X" ? oGlobalData.GL : "");
 			var Dept = new Filter('Dept', FilterOperator.EQ, oGlobalData.Dept);
 			var listS = new Filter('DET_FLAG', FilterOperator.EQ, oGlobalData.listS);
 			var GLGrp = new Filter('GlAcGroup', FilterOperator.EQ, oGlobalData.listS === "" ? oGlobalData.GLGrp : "");
@@ -1022,7 +1076,7 @@ sap.ui.define([
 				urlParameters: {
 					"sap-client": "400"
 				},
-				filters: [cmpnyCode, reportS, fromDate, toDate, GL, Dept, listS, GLGrp],
+				filters: [cmpnyCode, reportS, fromDate, toDate, Dept, listS, GLGrp],
 				success: function(response) {
 					var oData = response.results;
 					console.log(oData);
