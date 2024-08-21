@@ -69,3 +69,23 @@
     margin: 0; /* Remove any margin */
     padding: 0; /* Remove any padding */
 }
+
+.incomingCircle {
+    width: 15px;
+    height: 15px;
+    background-color: #00e600;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.outgoingCircle {
+    width: 15px;
+    height: 15px;
+    background-color: #0000b3;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.balanceText {
+    margin-left: 5px;
+}
