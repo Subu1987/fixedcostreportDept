@@ -8,8 +8,8 @@ sap.ui.define([
 	"sap/ui/core/ValueState",
 	'sap/ushell/library',
 	"com/infocus/fixedCostReportDept/libs/html2pdf.bundle",
-
-], function(BaseController, Filter, FilterOperator, JSONModel, MessageBox, Format, ValueState, SapUshellLib, html2pdf_bundle) {
+	"jquery.sap.global"
+], function(BaseController, Filter, FilterOperator, JSONModel, MessageBox, Format, ValueState, SapUshellLib, html2pdf_bundle, jQuery) {
 	"use strict";
 
 	return BaseController.extend("com.infocus.fixedCostReportDept.controller.Home", {
@@ -27,22 +27,15 @@ sap.ui.define([
 			// Set up UI components visibility
 			this._columnVisible();
 		},
-		/**
-		 * Initialize application data including fetching user ID and setting up parameters.
-		 * @private
-		 */
+
 		_initializeAppData: function() {
-			/*this._getUserIdFromLoggedInUser();*/
+			this._getUserIdFromLoggedInUser();
 			this.getcompanyCodeParametersData();
 			this.getGLParametersData();
 			this.getGLGrpParametersData();
 			this.getDeptParametersData();
 		},
 
-		/**
-		 * Fetch the user ID of the logged-in user using ShellUIService.
-		 * @private
-		 */
 		_getUserIdFromLoggedInUser: function() {
 			var that = this;
 
@@ -59,29 +52,80 @@ sap.ui.define([
 						console.error("Error retrieving ShellUIService: ", oError);
 					});
 			} else {
-				MessageBox.error("sap.ushell.Container is not available. Ensure you are running within the Fiori Launchpad.");
-				console.error("sap.ushell.Container is not available.");
+				// Fallback method using AJAX to call /sap/bc/ui2/start_up
+				jQuery.ajax({
+					url: "/sap/bc/ui2/start_up",
+					method: "GET",
+					success: function(data) {
+						var userId = data.id;
+						console.log("User ID from /sap/bc/ui2/start_up:", userId);
+						that._onGlobalUserIdSet(userId);
+					},
+					error: function(xhr, status, error) {
+						MessageBox.error("Error retrieving User ID via AJAX: " + status);
+						console.error("Error retrieving User ID via AJAX:", status, error);
+					}
+				});
+
 			}
 		},
 
-		/**
-		 * Set the retrieved user ID to the global data model.
-		 * @param {string} sUserId - The user ID to be set.
-		 * @private
-		 */
 		_onGlobalUserIdSet: function(sUserId) {
 			var oGlobalDataModel = this.getOwnerComponent().getModel("globalData");
 			if (oGlobalDataModel) {
 				oGlobalDataModel.setProperty("/userId", sUserId || "");
+				
+				// Call userAuthSet after the userId is set
+                this.userAuthSet();
 			} else {
 				console.error("Global data model is not available.");
 			}
 		},
+		
+		userAuthSet: function(){
+			var that = this;
+			var oModel = this.getOwnerComponent().getModel();
+			var oGlobalData = this.getOwnerComponent().getModel("globalData").getData();
+			var oUrl = "/AUTHSet(UNAME='" + oGlobalData.userId + "')";
+			
+			sap.ui.core.BusyIndicator.show();
 
-		/**
-		 * Update the global data model with initial values.
-		 * @private
-		 */
+			oModel.read(oUrl, {
+				urlParameters: {
+					"sap-client": "400"
+				},
+				
+				success: function(response) {
+					var oData = response;
+					console.log(oData);
+
+					var oAuthDataModel = that.getOwnerComponent().getModel("authData");
+					oAuthDataModel.setData(oData);
+
+					// check in oData value is available or not 
+					if (typeof oData !== 'undefined' && oData.length === 0) {
+
+						// hide the busy indicator
+						sap.ui.core.BusyIndicator.hide();
+						sap.m.MessageBox.information('There are no data available!');
+						/*that._columnVisible();*/
+					} else {
+						/*that._assignVisiblity(oData, that);*/
+
+						// hide the busy indicator
+						sap.ui.core.BusyIndicator.hide();
+					}
+
+				},
+				error: function(error) {
+					sap.ui.core.BusyIndicator.hide();
+					console.log(error);
+					var errorObject = JSON.parse(error.responseText);
+					sap.m.MessageBox.error(errorObject.error.message.value);
+				}
+			});
+		},
+
 		_updateGlobalDataModel: function() {
 			var oGlobalDataModel = this.getOwnerComponent().getModel("globalData");
 			if (oGlobalDataModel) {
@@ -1056,7 +1100,7 @@ sap.ui.define([
 			var oModel = this.getOwnerComponent().getModel();
 			var oGlobalData = this.getOwnerComponent().getModel("globalData").getData();
 			//var oUrl = /ZFI_FCR_SRV/ZFI_FCRSet?$filter=Rldnr eq '0L' and Rbukrs eq '1100' and Ryear eq '2023' and PrctrGr eq 'FTRS' and MinPr eq '03' and MaxPr eq '10' and DET_FLAG eq 'X';
-			
+
 			var oUrl = (oGlobalData.Dept !== "" && oGlobalData.listS === "") ? "/GLAC_GR_SUMSet" : "/DEPTSet";
 
 			/*var ledgrNo = new Filter('Rldnr', FilterOperator.EQ, oGlobalData.ledgrNo);*/

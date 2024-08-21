@@ -94,6 +94,9 @@
 					"useBatch": false
 				}
 			},
+			"authData": {
+				"type": "sap.ui.model.json.JSONModel"
+			},
 			"globalData": {
 				"type": "sap.ui.model.json.JSONModel"
 			},
