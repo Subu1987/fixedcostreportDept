@@ -967,8 +967,8 @@ sap.ui.define([
 			// SplitterLayoutData elements
 			var oSplitterLayoutData1 = this.byId("splitterLayoutData1");
 			var oSplitterLayoutData2 = this.byId("splitterLayoutData2");
-			var oSplitterLayoutData3 = this.byId("splitterLayoutData3");
-			var oSplitterLayoutData4 = this.byId("splitterLayoutData4");
+			// var oSplitterLayoutData3 = this.byId("splitterLayoutData3");
+			// var oSplitterLayoutData4 = this.byId("splitterLayoutData4");
 
 			// Extract properties that include "Hsl"
 			var hslProperties = [];
@@ -1056,8 +1056,8 @@ sap.ui.define([
 			oGlobalData.togglePanelVisibility = oData[0].DET_FLAG === "X" ? "X" : "";
 
 			// SplitterLayoutData elements
-			var oSplitterLayoutData1 = this.byId("splitterLayoutData1");
-			var oSplitterLayoutData2 = this.byId("splitterLayoutData2");
+			// var oSplitterLayoutData1 = this.byId("splitterLayoutData1");
+			// var oSplitterLayoutData2 = this.byId("splitterLayoutData2");
 			var oSplitterLayoutData3 = this.byId("splitterLayoutData3");
 			var oSplitterLayoutData4 = this.byId("splitterLayoutData4");
 
@@ -1101,8 +1101,8 @@ sap.ui.define([
 			}*/
 
 			if (oData[0].DET_FLAG === "") {
-				this.loadDefaultGraph2();
-
+				this.loadDefaultGraph();
+				// this.loadDefaultGraph2();
 				this.byId("panelForm").setExpanded(false);
 				this.byId("chartDataSwitch").setState(true);
 				this.byId("tabularDataSwitch").setState(false);
@@ -1139,116 +1139,126 @@ sap.ui.define([
 			var that = this;
 			var oModel = this.getOwnerComponent().getModel();
 			var oGlobalData = this.getOwnerComponent().getModel("globalData").getData();
-			if (oGlobalData.Dept !== "" && oGlobalData.listS === "") {
-				var oUrl = "/GLAC_GR_SUMSet";
-				var ledgrNo = new Filter('Rldnr', FilterOperator.EQ, oGlobalData.ledgrNo);
-				var cmpnyCode = new Filter('Rbukrs', FilterOperator.EQ, oGlobalData.cmpnyCode);
-				/*var fiscalY = new Filter('Ryear', FilterOperator.EQ, oGlobalData.fiscalY);*/
-				var reportS = new Filter('PrctrGr', FilterOperator.EQ, oGlobalData.reportS);
-				var fromDate = new Filter('FmDate', FilterOperator.EQ, oGlobalData.fromDate);
-				var toDate = new Filter('ToDate', FilterOperator.EQ, oGlobalData.toDate);
-				// var GL = new Filter('Racct', FilterOperator.EQ,  oGlobalData.listS === "X" ? oGlobalData.GL : "");
-				var Dept = new Filter('Dept', FilterOperator.EQ, oGlobalData.Dept);
-				var listS = new Filter('DET_FLAG', FilterOperator.EQ, oGlobalData.listS);
-				var GLGrp = new Filter('GlAcGroup', FilterOperator.EQ, oGlobalData.listS === "" ? oGlobalData.GLGrp : "");
+			var oUrl = (oGlobalData.Dept !== "" && oGlobalData.listS === "") ? "/GLAC_GR_SUMSet" : "/DEPTSet";
+			// if (oGlobalData.Dept !== "" && oGlobalData.listS === "") {
+			// 	var oUrl = "/GLAC_GR_SUMSet";
+			// var ledgrNo = new Filter('Rldnr', FilterOperator.EQ, oGlobalData.ledgrNo);
+			var cmpnyCode = new Filter('Rbukrs', FilterOperator.EQ, oGlobalData.cmpnyCode);
+			/*var fiscalY = new Filter('Ryear', FilterOperator.EQ, oGlobalData.fiscalY);*/
+			var reportS = new Filter('PrctrGr', FilterOperator.EQ, oGlobalData.reportS);
+			var fromDate = new Filter('FmDate', FilterOperator.EQ, oGlobalData.fromDate);
+			var toDate = new Filter('ToDate', FilterOperator.EQ, oGlobalData.toDate);
+			var GL = new Filter('Racct', FilterOperator.EQ, oGlobalData.listS === "X" ? oGlobalData.GL : "");
+			var Dept = new Filter('Dept', FilterOperator.EQ, oGlobalData.Dept);
+			var listS = new Filter('DET_FLAG', FilterOperator.EQ, oGlobalData.listS);
+			var GLGrp = new Filter('GlAcGroup', FilterOperator.EQ, oGlobalData.listS === "" ? oGlobalData.GLGrp : "");
 
-				sap.ui.core.BusyIndicator.show();
+			sap.ui.core.BusyIndicator.show();
 
-				oModel.read(oUrl, {
-					urlParameters: {
-						"sap-client": "400"
-					},
-					filters: [ledgrNo, cmpnyCode, fromDate, toDate, reportS, listS, GLGrp, Dept],
-					success: function(response) {
-						var oData = response.results;
-						console.log(oData);
+			oModel.read(oUrl, {
+				urlParameters: {
+					"sap-client": "400"
+				},
+				filters: [cmpnyCode, fromDate, toDate, reportS, listS, GLGrp, Dept, GL],
+				success: function(response) {
+					var oData = response.results;
+					console.log(oData);
 
-						// Format decimal properties to 2 digits after the decimal point
-						oData.forEach(function(item) {
-							that._formatDecimalProperties(item, that);
-						});
+					// Format decimal properties to 2 digits after the decimal point
+					oData.forEach(function(item) {
+						that._formatDecimalProperties(item, that);
+					});
 
-						var oListDataModel = that.getOwnerComponent().getModel("listData");
-						oListDataModel.setData(oData);
+					var oListDataModel = that.getOwnerComponent().getModel("listData");
+					oListDataModel.setData(oData);
+					var oGlobalData = that.getOwnerComponent().getModel("globalData").getData();
 
-						// check in oData value is available or not 
-						if (typeof oData !== 'undefined' && oData.length === 0) {
+					// check in oData value is available or not 
+					if (typeof oData !== 'undefined' && oData.length === 0) {
 
-							// hide the busy indicator
-							sap.ui.core.BusyIndicator.hide();
-							sap.m.MessageBox.information('There are no data available!');
-							that._columnVisible();
-						} else {
-							that._assignVisiblity2(oData, that);
-
-							// hide the busy indicator
-							sap.ui.core.BusyIndicator.hide();
-						}
-
-					},
-					error: function(error) {
+						// hide the busy indicator
 						sap.ui.core.BusyIndicator.hide();
-						console.log(error);
-						var errorObject = JSON.parse(error.responseText);
-						sap.m.MessageBox.error(errorObject.error.message.value);
-					}
-				});
-			} else {
-				//var oUrl = /ZFI_FCR_SRV/ZFI_FCRSet?$filter=Rldnr eq '0L' and Rbukrs eq '1100' and Ryear eq '2023' and PrctrGr eq 'FTRS' and MinPr eq '03' and MaxPr eq '10' and DET_FLAG eq 'X';
-				var oUrl = "/DEPTSet";
-				/*var ledgrNo = new Filter('Rldnr', FilterOperator.EQ, oGlobalData.ledgrNo);*/
-				var cmpnyCode = new Filter('Rbukrs', FilterOperator.EQ, oGlobalData.cmpnyCode);
-				/*var fiscalY = new Filter('Ryear', FilterOperator.EQ, oGlobalData.fiscalY);*/
-				var reportS = new Filter('PrctrGr', FilterOperator.EQ, oGlobalData.reportS);
-				var fromDate = new Filter('FmDate', FilterOperator.EQ, oGlobalData.fromDate);
-				var toDate = new Filter('ToDate', FilterOperator.EQ, oGlobalData.toDate);
-				var GL = new Filter('Racct', FilterOperator.EQ, oGlobalData.listS === "X" ? oGlobalData.GL : "");
-				var Dept = new Filter('Dept', FilterOperator.EQ, oGlobalData.Dept);
-				var listS = new Filter('DET_FLAG', FilterOperator.EQ, oGlobalData.listS);
-				var GLGrp = new Filter('GlAcGroup', FilterOperator.EQ, oGlobalData.listS === "" ? oGlobalData.GLGrp : "");
-
-				sap.ui.core.BusyIndicator.show();
-
-				oModel.read(oUrl, {
-					urlParameters: {
-						"sap-client": "400"
-					},
-					filters: [cmpnyCode, reportS, fromDate, toDate, GL, Dept, listS, GLGrp],
-					success: function(response) {
-						var oData = response.results;
-						console.log(oData);
-
-						// Format decimal properties to 2 digits after the decimal point
-						oData.forEach(function(item) {
-							that._formatDecimalProperties(item, that);
-						});
-
-						var oListDataModel = that.getOwnerComponent().getModel("listData");
-						oListDataModel.setData(oData);
-
-						// check in oData value is available or not 
-						if (typeof oData !== 'undefined' && oData.length === 0) {
-
-							// hide the busy indicator
-							sap.ui.core.BusyIndicator.hide();
-							sap.m.MessageBox.information('There are no data available!');
-							that._columnVisible();
+						sap.m.MessageBox.information('There are no data available!');
+						if (oGlobalData.Dept !== "" && oGlobalData.listS === "") {
+							that._columnVisible2(oData, that);
+						} else {
+							that._columnVisible(oData, that);
+						}
+					} else {
+						if (oGlobalData.Dept !== "" && oGlobalData.listS === "") {
+							that._assignVisiblity2(oData, that);
 						} else {
 							that._assignVisiblity(oData, that);
-
-							// hide the busy indicator
-							sap.ui.core.BusyIndicator.hide();
 						}
 
-					},
-					error: function(error) {
+						// hide the busy indicator
 						sap.ui.core.BusyIndicator.hide();
-						console.log(error);
-						var errorObject = JSON.parse(error.responseText);
-						sap.m.MessageBox.error(errorObject.error.message.value);
 					}
-				});
-			}
+
+				},
+				error: function(error) {
+					sap.ui.core.BusyIndicator.hide();
+					console.log(error);
+					var errorObject = JSON.parse(error.responseText);
+					sap.m.MessageBox.error(errorObject.error.message.value);
+				}
+			});
+			// } else {
+			// 	//var oUrl = /ZFI_FCR_SRV/ZFI_FCRSet?$filter=Rldnr eq '0L' and Rbukrs eq '1100' and Ryear eq '2023' and PrctrGr eq 'FTRS' and MinPr eq '03' and MaxPr eq '10' and DET_FLAG eq 'X';
+			// 	var oUrl = "/DEPTSet";
+			// 	/*var ledgrNo = new Filter('Rldnr', FilterOperator.EQ, oGlobalData.ledgrNo);*/
+			// 	var cmpnyCode = new Filter('Rbukrs', FilterOperator.EQ, oGlobalData.cmpnyCode);
+			// 	/*var fiscalY = new Filter('Ryear', FilterOperator.EQ, oGlobalData.fiscalY);*/
+			// 	var reportS = new Filter('PrctrGr', FilterOperator.EQ, oGlobalData.reportS);
+			// 	var fromDate = new Filter('FmDate', FilterOperator.EQ, oGlobalData.fromDate);
+			// 	var toDate = new Filter('ToDate', FilterOperator.EQ, oGlobalData.toDate);
+			// 	var GL = new Filter('Racct', FilterOperator.EQ, oGlobalData.listS === "X" ? oGlobalData.GL : "");
+			// 	var Dept = new Filter('Dept', FilterOperator.EQ, oGlobalData.Dept);
+			// 	var listS = new Filter('DET_FLAG', FilterOperator.EQ, oGlobalData.listS);
+			// 	var GLGrp = new Filter('GlAcGroup', FilterOperator.EQ, oGlobalData.listS === "" ? oGlobalData.GLGrp : "");
+
+			// 	sap.ui.core.BusyIndicator.show();
+
+			// 	oModel.read(oUrl, {
+			// 		urlParameters: {
+			// 			"sap-client": "400"
+			// 		},
+			// 		filters: [cmpnyCode, reportS, fromDate, toDate, GL, Dept, listS, GLGrp],
+			// 		success: function(response) {
+			// 			var oData = response.results;
+			// 			console.log(oData);
+
+			// 			// Format decimal properties to 2 digits after the decimal point
+			// 			oData.forEach(function(item) {
+			// 				that._formatDecimalProperties(item, that);
+			// 			});
+
+			// 			var oListDataModel = that.getOwnerComponent().getModel("listData");
+			// 			oListDataModel.setData(oData);
+
+			// 			// check in oData value is available or not 
+			// 			if (typeof oData !== 'undefined' && oData.length === 0) {
+
+			// 				// hide the busy indicator
+			// 				sap.ui.core.BusyIndicator.hide();
+			// 				sap.m.MessageBox.information('There are no data available!');
+			// 				that._columnVisible();
+			// 			} else {
+			// 				that._assignVisiblity(oData, that);
+
+			// 				// hide the busy indicator
+			// 				sap.ui.core.BusyIndicator.hide();
+			// 			}
+
+			// 		},
+			// 		error: function(error) {
+			// 			sap.ui.core.BusyIndicator.hide();
+			// 			console.log(error);
+			// 			var errorObject = JSON.parse(error.responseText);
+			// 			sap.m.MessageBox.error(errorObject.error.message.value);
+			// 		}
+			// 	});
+			// }
 
 		},
 		_formatDecimalProperties: function(obj, then) {
@@ -1309,7 +1319,7 @@ sap.ui.define([
 								oGlobalDataModel.setProperty("/modifyFromDate", "");
 								oGlobalDataModel.setProperty("/modifyToDate", "");
 							}
-		
+
 							that._columnVisible();
 							that._columnVisible2();
 							that.byId("downloadPdfBtn").setEnabled(false);
@@ -1325,7 +1335,12 @@ sap.ui.define([
 			var oGlobalData = this.getOwnerComponent().getModel("globalData").getData();
 			var oListData = this.getOwnerComponent().getModel("listData").getData();
 			var defaultFilterChartData = oListData[0]; // Assuming default data is at index 0
-			var extractChartData = this.extractData(defaultFilterChartData);
+
+			if (oGlobalData.Dept !== "" && oGlobalData.listS === "") {
+				var extractChartData = this.extractData2(defaultFilterChartData);
+			} else {
+				var extractChartData = this.extractData(defaultFilterChartData);
+			}
 
 			// Set default chart data
 			this.getOwnerComponent().getModel("chartData").setData(extractChartData);
@@ -1339,24 +1354,24 @@ sap.ui.define([
 			var aItems = oTable.getItems();*/
 			this._highlightRow(0);
 		},
-		loadDefaultGraph2: function() {
-			var oGlobalData = this.getOwnerComponent().getModel("globalData").getData();
-			var oListData = this.getOwnerComponent().getModel("listData").getData();
-			var defaultFilterChartData = oListData[0]; // Assuming default data is at index 0
-			var extractChartData = this.extractData2(defaultFilterChartData);
+		// loadDefaultGraph2: function() {
+		// 	var oGlobalData = this.getOwnerComponent().getModel("globalData").getData();
+		// 	var oListData = this.getOwnerComponent().getModel("listData").getData();
+		// 	var defaultFilterChartData = oListData[0]; // Assuming default data is at index 0
+		// 	var extractChartData = this.extractData2(defaultFilterChartData);
 
-			// Set default chart data
-			this.getOwnerComponent().getModel("chartData").setData(extractChartData);
+		// 	// Set default chart data
+		// 	this.getOwnerComponent().getModel("chartData").setData(extractChartData);
 
-			// Set default panel visibility
-			oGlobalData.togglePanelVisibility = defaultFilterChartData.DET_FLAG === "X" ? "X" : "";
-			this.getOwnerComponent().getModel("globalData").setData(oGlobalData);
+		// 	// Set default panel visibility
+		// 	oGlobalData.togglePanelVisibility = defaultFilterChartData.DET_FLAG === "X" ? "X" : "";
+		// 	this.getOwnerComponent().getModel("globalData").setData(oGlobalData);
 
-			// highlight the default table 
-			/*var oTable = this.byId("dynamicTable");
-			var aItems = oTable.getItems();*/
-			this._highlightRow(0);
-		},
+		// 	// highlight the default table 
+		// 	/*var oTable = this.byId("dynamicTable");
+		// 	var aItems = oTable.getItems();*/
+		// 	this._highlightRow(0);
+		// },
 		onChartButtonPress: function(oEvent) {
 			var oGlobalData = this.getOwnerComponent().getModel("globalData").getData();
 			var oListData = this.getOwnerComponent().getModel("listData").getData();
@@ -1368,6 +1383,18 @@ sap.ui.define([
 				oTable2 = this.byId("dynamicTable2");
 			var oSplitter = this.byId("splitter"),
 				oSplitter2 = this.byId("splitter2");
+
+			// set the globaldata
+			oGlobalData.togglePanelVisibility = oListData[0].DET_FLAG === "X" ? "X" : "";
+			this.getOwnerComponent().getModel("globalData").setData(oGlobalData);
+
+			// set the split view switch state to true
+			/*this.byId("splitViewSwitch").setState(true);*/
+			this.byId("tabularDataSwitch").setState(false);
+			this.byId("chartDataSwitch").setState(true);
+			// pdf button
+			this.byId("downloadPdfBtn").setEnabled(false);
+
 			if (oSplitter.getVisible() === true) {
 				var iIndex = oTable.indexOfItem(oRow);
 				// Highlight the clicked row
@@ -1377,9 +1404,9 @@ sap.ui.define([
 				var extractChartData = this.extractData(filterChartData);
 				oChartDataModel.setData(extractChartData);
 
-				// set the globaldata
-				oGlobalData.togglePanelVisibility = oListData[0].DET_FLAG === "X" ? "X" : "";
-				this.getOwnerComponent().getModel("globalData").setData(oGlobalData);
+				// // set the globaldata
+				// oGlobalData.togglePanelVisibility = oListData[0].DET_FLAG === "X" ? "X" : "";
+				// this.getOwnerComponent().getModel("globalData").setData(oGlobalData);
 
 				// SplitterLayoutData elements
 				var oSplitterLayoutData1 = this.byId("splitterLayoutData1");
@@ -1387,8 +1414,8 @@ sap.ui.define([
 
 				// set the split view switch state to true
 				/*this.byId("splitViewSwitch").setState(true);*/
-				this.byId("tabularDataSwitch").setState(false);
-				this.byId("chartDataSwitch").setState(true);
+				// this.byId("tabularDataSwitch").setState(false);
+				// this.byId("chartDataSwitch").setState(true);
 
 				// Update SplitterLayoutData sizes for split view
 				oSplitterLayoutData1.setSize("0%");
@@ -1403,8 +1430,8 @@ sap.ui.define([
 				oChartDataModel.setData(extractChartData);
 
 				// set the globaldata
-				oGlobalData.togglePanelVisibility = oListData[0].DET_FLAG === "X" ? "X" : "";
-				this.getOwnerComponent().getModel("globalData").setData(oGlobalData);
+				// oGlobalData.togglePanelVisibility = oListData[0].DET_FLAG === "X" ? "X" : "";
+				// this.getOwnerComponent().getModel("globalData").setData(oGlobalData);
 
 				// SplitterLayoutData elements
 				var oSplitterLayoutData3 = this.byId("splitterLayoutData3");
@@ -1412,8 +1439,8 @@ sap.ui.define([
 
 				// set the split view switch state to true
 				/*this.byId("splitViewSwitch").setState(true);*/
-				this.byId("tabularDataSwitch").setState(false);
-				this.byId("chartDataSwitch").setState(true);
+				// this.byId("tabularDataSwitch").setState(false);
+				// this.byId("chartDataSwitch").setState(true);
 
 				// Update SplitterLayoutData sizes for split view
 				oSplitterLayoutData3.setSize("0%");
@@ -1564,7 +1591,7 @@ sap.ui.define([
 						visible: true,
 						showTotal: true,
 					},
-					colorPalette: ['#00e600', '#0000b3'] // Green for IncomingBalance, Orange for OutgoingBalance
+					colorPalette: ['#00e600', '#0000b3'] // Green for Actuaal, Blue for Budget
 				}
 			});
 

@@ -566,12 +566,12 @@
 														</viz.data:dimensions>
 														<viz.data:measures>
 															<viz.data:MeasureDefinition group="1" name="Actual" value="{chartData>ActualBalance}"/>
-															<viz.data:MeasureDefinition group="1" name="Budget" value="{chartData>BudgetBalance}"/>
+															<viz.data:MeasureDefinition group="1" name="Budget (In Lacs)" value="{chartData>BudgetBalance}"/>
 														</viz.data:measures>
 													</viz.data:FlattenedDataset>
 												</viz:dataset>
 												<viz:feeds>
-													<viz.feeds:FeedItem id="valueAxis2" uid="valueAxis" type="Measure" values="Actual,Budget"/>
+													<viz.feeds:FeedItem id="valueAxis2" uid="valueAxis" type="Measure" values="Actual,Budget (In Lacs)"/>
 													<viz.feeds:FeedItem id="categoryAxis2" uid="categoryAxis" type="Dimension" values="Month"/>
 												</viz:feeds>
 											</viz:VizFrame>
