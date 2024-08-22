@@ -1510,7 +1510,7 @@ sap.ui.define([
 			var deptColorsArray = this.generateBrightColors(depts.length); // Make sure to call the function using 'this'
 			var deptColors = {};
 			depts.forEach((dept, index) => {
-				deptColors[dept] = deptColorsArray[index];
+				deptColors[dept.toUpperCase()] = deptColorsArray[index];
 			});
 
 			var oVizFrame = this.byId("oVizFrame");
@@ -1524,10 +1524,10 @@ sap.ui.define([
 						rules: depts.map(function(dept) {
 							return {
 								dataContext: {
-									Department: dept
+									Department: dept.toUpperCase()
 								},
 								properties: {
-									color: deptColors[dept]
+									color: deptColors[dept.toUpperCase()]
 								}
 							};
 						})
@@ -1543,7 +1543,7 @@ sap.ui.define([
 
 				if (flag === "X") {
 					result.push({
-						Department: dept,
+						Department: dept.toUpperCase(),
 						Value: value
 					});
 				}
