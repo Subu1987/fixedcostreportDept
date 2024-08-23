@@ -45,7 +45,6 @@
 							</FlexBox>
 							<FlexBox width="90%" direction="Row" height="auto" id="DepartmentView" wrap="Wrap" justifyContent="SpaceAround" alignItems="Center"
 								visible="true">
-								
 								<FlexBox>
 									<RadioButtonGroup id="company" columns="5" select="onRadioButtonSelectReports">
 										<RadioButton id="PRS" text="PRS"  visible="{= ${authData>/PRS} === 'X' ? true : false}"/>
@@ -140,139 +139,139 @@
 										<Text text="TOTAL PLANING BUDGET"/>
 									</Column>
 									<Column visible="{columnVisible>/dept01Flag}" width="80px">
-										<Text text="Cadm"/>
+										<Text text="CADM"/>
 									</Column>
 									<Column visible="{columnVisible>/dept02Flag}" width="80px">
-										<Text text="Cbco"/>
+										<Text text="CBCO"/>
 									</Column>
 									<Column visible="{columnVisible>/dept03Flag}" width="80px">
-										<Text text="Cceo"/>
+										<Text text="CCEO"/>
 									</Column>
 									<Column visible="{columnVisible>/dept04Flag}" width="80px">
-										<Text text="Cdog"/>
+										<Text text="CDOG"/>
 									</Column>
 									<Column visible="{columnVisible>/dept05Flag}" width="80px">
-										<Text text="Cfa"/>
+										<Text text="CFA"/>
 									</Column>
 									<Column visible="{columnVisible>/dept06Flag}" width="80px">
-										<Text text="Cgh"/>
+										<Text text="CGH"/>
 									</Column>
 									<Column visible="{columnVisible>/dept07Flag}" width="80px">
-										<Text text="Chr"/>
+										<Text text="CGR"/>
 									</Column>
 									<Column visible="{columnVisible>/dept08Flag}" width="80px">
-										<Text text="Cim"/>
+										<Text text="CIM"/>
 									</Column>
 									<Column visible="{columnVisible>/dept09Flag}" width="80px">
-										<Text text="Cit"/>
+										<Text text="CIT"/>
 									</Column>
 									<Column visible="{columnVisible>/dept10Flag}" width="80px">
-										<Text text="Clse"/>
+										<Text text="CLSE"/>
 									</Column>
 									<Column visible="{columnVisible>/dept11Flag}" width="80px">
-										<Text text="Cmo"/>
+										<Text text="CMO"/>
 									</Column>
 									<Column visible="{columnVisible>/dept12Flag}" width="80px">
-										<Text text="Csjv"/>
+										<Text text="CSJV"/>
 									</Column>
 									<Column visible="{columnVisible>/dept13Flag}" width="80px">
-										<Text text="Csvg"/>
+										<Text text="CSVG"/>
 									</Column>
 									<Column visible="{columnVisible>/dept14Flag}" width="80px">
-										<Text text="Adm"/>
+										<Text text="ADM"/>
 									</Column>
 									<Column visible="{columnVisible>/dept15Flag}" width="80px">
-										<Text text="Cob"/>
+										<Text text="COB"/>
 									</Column>
 									<Column visible="{columnVisible>/dept16Flag}" width="80px">
-										<Text text="Ehs"/>
+										<Text text="EHS"/>
 									</Column>
 									<Column visible="{columnVisible>/dept17Flag}" width="80px">
-										<Text text="Faa"/>
+										<Text text="FAA"/>
 									</Column>
 									<Column visible="{columnVisible>/dept18Flag}" width="80px">
-										<Text text="Gmt"/>
+										<Text text="GMT"/>
 									</Column>
 									<Column visible="{columnVisible>/dept19Flag}" width="80px">
-										<Text text="Hic"/>
+										<Text text="HIC"/>
 									</Column>
 									<Column visible="{columnVisible>/dept20Flag}" width="80px">
-										<Text text="Mam"/>
+										<Text text="MAM"/>
 									</Column>
 									<Column visible="{columnVisible>/dept21Flag}" width="80px">
-										<Text text="Mcc"/>
+										<Text text="MCC"/>
 									</Column>
 									<Column visible="{columnVisible>/dept22Flag}" width="80px">
-										<Text text="Mci"/>
+										<Text text="MCI"/>
 									</Column>
 									<Column visible="{columnVisible>/dept23Flag}" width="80px">
-										<Text text="Mem"/>
+										<Text text="MEM"/>
 									</Column>
 									<Column visible="{columnVisible>/dept24Flag}" width="80px">
-										<Text text="Mmt"/>
+										<Text text="MMT"/>
 									</Column>
 									<Column visible="{columnVisible>/dept25Flag}" width="80px">
-										<Text text="Ope"/>
+										<Text text="OPE"/>
 									</Column>
 									<Column visible="{columnVisible>/dept26Flag}" width="80px">
-										<Text text="Pmt"/>
+										<Text text="PMT"/>
 									</Column>
 									<Column visible="{columnVisible>/dept27Flag}" width="80px">
-										<Text text="Qac"/>
+										<Text text="QAC"/>
 									</Column>
 									<Column visible="{columnVisible>/dept28Flag}" width="80px">
-										<Text text="Scm"/>
+										<Text text="SCM"/>
 									</Column>
 									<Column visible="{columnVisible>/dept29Flag}" width="80px">
-										<Text text="Udch"/>
+										<Text text="UDCH"/>
 									</Column>
 									<Column visible="{columnVisible>/dept30Flag}" width="80px">
-										<Text text="Udpu"/>
+										<Text text="UDPU"/>
 									</Column>
 									<Column visible="{columnVisible>/dept31Flag}" width="80px">
-										<Text text="Ufa"/>
+										<Text text="UFA"/>
 									</Column>
 									<Column visible="{columnVisible>/dept32Flag}" width="80px">
-										<Text text="Ufi"/>
+										<Text text="UFI"/>
 									</Column>
 									<Column visible="{columnVisible>/dept33Flag}" width="80px">
-										<Text text="Ugmt"/>
+										<Text text="UGMT"/>
 									</Column>
 									<Column visible="{columnVisible>/dept34Flag}" width="80px">
-										<Text text="Uhic"/>
+										<Text text="UHIC"/>
 									</Column>
 									<Column visible="{columnVisible>/dept35Flag}" width="80px">
-										<Text text="Ummt"/>
+										<Text text="UMMT"/>
 									</Column>
 									<Column visible="{columnVisible>/dept36Flag}" width="80px">
-										<Text text="Uoep"/>
+										<Text text="UOEP"/>
 									</Column>
 									<Column visible="{columnVisible>/dept37Flag}" width="80px">
-										<Text text="Uomi"/>
+										<Text text="UOMI"/>
 									</Column>
 									<Column visible="{columnVisible>/dept38Flag}" width="80px">
-										<Text text="Upmc"/>
+										<Text text="UPMC"/>
 									</Column>
 									<Column visible="{columnVisible>/dept39Flag}" width="80px">
-										<Text text="Upme"/>
+										<Text text="UPME"/>
 									</Column>
 									<Column visible="{columnVisible>/dept40Flag}" width="80px">
-										<Text text="Upmm"/>
+										<Text text="UPMM"/>
 									</Column>
 									<Column visible="{columnVisible>/dept41Flag}" width="80px">
-										<Text text="Upmt"/>
+										<Text text="UPMT"/>
 									</Column>
 									<Column visible="{columnVisible>/dept42Flag}" width="80px">
-										<Text text="Uprp"/>
+										<Text text="UPRP"/>
 									</Column>
 									<Column visible="{columnVisible>/dept43Flag}" width="80px">
-										<Text text="Uqac"/>
+										<Text text="UQAC"/>
 									</Column>
 									<Column visible="{columnVisible>/dept44Flag}" width="80px">
-										<Text text="Usmg"/>
+										<Text text="USMG"/>
 									</Column>
 									<Column visible="{columnVisible>/dept45Flag}" width="80px">
-										<Text text="Uwil"/>
+										<Text text="UWIL"/>
 									</Column>
 								</columns>
 								<items>
@@ -372,6 +371,215 @@
 								</chart:ChartContainer>
 								<layoutData>
 									<l:SplitterLayoutData id="splitterLayoutData2" size="{= ${globalData>/togglePanelVisibility} === 'X' ? '0%' : '50%' }" resizable="false"/>
+								</layoutData>
+							</Panel>
+						</l:Splitter>
+						<l:Splitter id="splitter2" height="450px" visible="false">
+							<Table headerText="{globalData>/reportS} {globalData>/modifyFromDate} - {globalData>/modifyToDate} Tabular Data(in Lacs)" id="dynamicTable2"
+								items="{listData>/}" fixedLayout="true" width="auto" class="pdfTable">
+								<columns>
+									<Column width="200px" visible="{columnVisible2>/GlAcGroup}">
+										<Text text="G/L Group"/>
+									</Column>
+									<Column width="200px" visible="{columnVisible2>/Posid}">
+										<Text text="WBS Element"/>
+									</Column>
+									<Column width="80px" visible="{columnVisible2>/graphColumnVisible}">
+										<Text text="Chart"/>
+									</Column>
+									<Column width="100px" visible="{columnVisible2>/TotalActualBud}">
+										<Text text="Total Actual Budget"/>
+									</Column>
+									<Column width="100px" visible="{columnVisible2>/TotalReleasedBud}">
+										<Text text="Total Released Budget"/>
+									</Column>
+									<Column visible="{columnVisible2>/l01VFlag}" width="80px">
+										<Text text="Apr Actual"/>
+									</Column>
+									<Column visible="{columnVisible2>/l01VFlag}" width="80px">
+										<Text text="Apr Budget"/>
+									</Column>
+									<Column visible="{columnVisible2>/l02VFlag}" width="80px">
+										<Text text="May Actual"/>
+									</Column>
+									<Column visible="{columnVisible2>/l02VFlag}" width="80px">
+										<Text text="May Budget"/>
+									</Column>
+									<Column visible="{columnVisible2>/l03VFlag}" width="80px">
+										<Text text="Jun Actual"/>
+									</Column>
+									<Column visible="{columnVisible2>/l03VFlag}" width="80px">
+										<Text text="Jun Budget"/>
+									</Column>
+									<Column visible="{columnVisible2>/l04VFlag}" width="80px">
+										<Text text="Jul Actual"/>
+									</Column>
+									<Column visible="{columnVisible2>/l04VFlag}" width="80px">
+										<Text text="Jul Budget"/>
+									</Column>
+									<Column visible="{columnVisible2>/l05VFlag}" width="80px">
+										<Text text="Aug Actual"/>
+									</Column>
+									<Column visible="{columnVisible2>/l05VFlag}" width="80px">
+										<Text text="Aug Budget"/>
+									</Column>
+									<Column visible="{columnVisible2>/l06VFlag}" width="80px">
+										<Text text="Sep Actual"/>
+									</Column>
+									<Column visible="{columnVisible2>/l06VFlag}" width="80px">
+										<Text text="Sep Budget"/>
+									</Column>
+									<Column visible="{columnVisible2>/l07VFlag}" width="80px">
+										<Text text="Oct Actual"/>
+									</Column>
+									<Column visible="{columnVisible2>/l07VFlag}" width="80px">
+										<Text text="Oct Budget"/>
+									</Column>
+									<Column visible="{columnVisible2>/l08VFlag}" width="80px">
+										<Text text="Nov Actual"/>
+									</Column>
+									<Column visible="{columnVisible2>/l08VFlag}" width="80px">
+										<Text text="Nov Budget"/>
+									</Column>
+									<Column visible="{columnVisible2>/l09VFlag}" width="80px">
+										<Text text="Dec Actual"/>
+									</Column>
+									<Column visible="{columnVisible2>/l09VFlag}" width="80px">
+										<Text text="Dec Budget"/>
+									</Column>
+									<Column visible="{columnVisible2>/l10VFlag}" width="80px">
+										<Text text="Jan Actual"/>
+									</Column>
+									<Column visible="{columnVisible2>/l10VFlag}" width="80px">
+										<Text text="Jan Budget"/>
+									</Column>
+									<Column visible="{columnVisible2>/l11VFlag}" width="80px">
+										<Text text="Feb Actual"/>
+									</Column>
+									<Column visible="{columnVisible2>/l11VFlag}" width="80px">
+										<Text text="Feb Budget"/>
+									</Column>
+									<Column visible="{columnVisible2>/l12VFlag}" width="80px">
+										<Text text="Mar Actual"/>
+									</Column>
+									<Column visible="{columnVisible2>/l12VFlag}" width="80px">
+										<Text text="Mar Budget"/>
+									</Column>
+									<Column visible="{columnVisible2>/l13VFlag}" width="80px">
+										<Text text="Specl 1"/>
+									</Column>
+									<Column visible="{columnVisible2>/l14VFlag}" width="80px">
+										<Text text="Specl 2"/>
+									</Column>
+									<Column visible="{columnVisible2>/l15VFlag}" width="80px">
+										<Text text="Specl 3"/>
+									</Column>
+									<Column visible="{columnVisible2>/l16VFlag}" width="80px">
+										<Text text="Specl 4"/>
+									</Column>
+								</columns>
+								<items>
+									<ColumnListItem class="sapMListTblRow">
+										<cells>
+											<Text text="{listData>GlAcGroup}"/>
+											<Text text="{listData>Posid}"/>
+											<Button id="chartButton2" class="chartButton" icon="sap-icon://vertical-bar-chart" text="" press="onChartButtonPress"/>
+											<Text text="{listData>TotalActualBud}"/>
+											<Text text="{listData>TotalReleasedBud}"/>
+											<Text text="{listData>AprilActual}"/>
+											<Text text="{listData>AprilBudget}"/>
+											<Text text="{listData>MayActual}"/>
+											<Text text="{listData>MayBudget}"/>
+											<Text text="{listData>JuneActual}"/>
+											<Text text="{listData>JuneBudget}"/>
+											<Text text="{listData>JulyActual}"/>
+											<Text text="{listData>JulyBudget}"/>
+											<Text text="{listData>AugActual}"/>
+											<Text text="{listData>AugBudget}"/>
+											<Text text="{listData>SepActual}"/>
+											<Text text="{listData>SepBudget}"/>
+											<Text text="{listData>OctActual}"/>
+											<Text text="{listData>OctBudget}"/>
+											<Text text="{listData>NovActual}"/>
+											<Text text="{listData>NovBudget}"/>
+											<Text text="{listData>DecActual}"/>
+											<Text text="{listData>DecBudget}"/>
+											<Text text="{listData>JanActual}"/>
+											<Text text="{listData>JanBudget}"/>
+											<Text text="{listData>FebActual}"/>
+											<Text text="{listData>FebBudget}"/>
+											<Text text="{listData>MarActual}"/>
+											<Text text="{listData>MarBudget}"/>
+											<Text text="{listData>L13}"/>
+											<Text text="{listData>L14}"/>
+											<Text text="{listData>L15}"/>
+											<Text text="{listData>L16}"/>
+										</cells>
+									</ColumnListItem>
+								</items>
+								<layoutData>
+									<l:SplitterLayoutData id="splitterLayoutData3" size="{= ${globalData>/togglePanelVisibility} === 'X' ? '100%' : '50%' }" resizable="false"/>
+								</layoutData>
+							</Table>
+							<Panel id="chartPanel2" width="100%" height="100%">
+								<FlexBox direction="Row" justifyContent="SpaceBetween" alignItems="Center">
+									<!--<RadioButtonGroup id="onSelectChartType" columns="5" select="onSelectChartType">
+										<RadioButton id="columnChart" text="Column Chart"/>
+										<RadioButton id="pieChart" text="Pie Chart"/>
+										<RadioButton id="lineChart" text="Line Chart"/>
+										<RadioButton id="donutChart" text="Donut Chart"/>
+									</RadioButtonGroup>-->
+									<!--<FlexBox direction="Row" justifyContent="Center" alignItems="Start">-->
+									<!--	<Label text="Column Chart" design="Bold" class="balanceText"/>-->
+									<!--	<Label text="(In Lacs)" design="Bold" class="balanceText"/>-->
+									<!--</FlexBox>-->
+									<FlexBox>
+										<RadioButtonGroup id="onSelectChartType2" columns="5" select="onSelectChartType">
+											<RadioButton id="columnChart2" text="Column Chart"/>
+											<!--<RadioButton id="pieChart" text="Pie Chart"/>
+										<RadioButton id="lineChart" text="Line Chart"/>
+										<RadioButton id="donutChart" text="Donut Chart"/>-->
+										</RadioButtonGroup>
+									</FlexBox>
+									<FlexBox direction="Row" justifyContent="Center" alignItems="Start">
+										<FlexBox direction="Row" alignItems="Center">
+											<core:Icon class="incomingCircle"/>
+											<Label text="Actual" class="balanceText" design="Bold"/>
+										</FlexBox>
+										<FlexBox direction="Row" alignItems="Center" class="sapUiTinyMarginBegin">
+											<core:Icon class="outgoingCircle"/>
+											<Label text="Budget" class="balanceText" design="Bold"/>
+										</FlexBox>
+									</FlexBox>
+								</FlexBox>
+								<chart:ChartContainer showLegend="false" showLegendButton="false" autoAdjustHeight="true" id="chartContainer2" showFullScreen="true"
+									title="">
+									<chart:ChartContainerContent icon="sap-icon://horizontal-stacked-chart" title="Stacked_bar Chart">
+										<chart:content>
+											<viz:VizFrame id="oVizFrame2" busy="false" busyIndicatorDelay="1000" visible="true"
+												vizProperties="{ plotArea: { drawingEffect: 'glossy' }, dataLabel: { visible: true, showTotal: true }, interaction: { selectability: { mode: 'none' }}}"
+												uiConfig="{ 'applicationSet': 'fiori' }" vizType="column">
+												<viz:dataset>
+													<viz.data:FlattenedDataset data="{chartData>/}">
+														<viz.data:dimensions>
+															<viz.data:DimensionDefinition name="Month" value="{chartData>Month}"/>
+														</viz.data:dimensions>
+														<viz.data:measures>
+															<viz.data:MeasureDefinition group="1" name="Actual" value="{chartData>ActualBalance}"/>
+															<viz.data:MeasureDefinition group="1" name="Budget (In Lacs)" value="{chartData>BudgetBalance}"/>
+														</viz.data:measures>
+													</viz.data:FlattenedDataset>
+												</viz:dataset>
+												<viz:feeds>
+													<viz.feeds:FeedItem id="valueAxis2" uid="valueAxis" type="Measure" values="Actual,Budget (In Lacs)"/>
+													<viz.feeds:FeedItem id="categoryAxis2" uid="categoryAxis" type="Dimension" values="Month"/>
+												</viz:feeds>
+											</viz:VizFrame>
+										</chart:content>
+									</chart:ChartContainerContent>
+								</chart:ChartContainer>
+								<layoutData>
+									<l:SplitterLayoutData id="splitterLayoutData4" size="{= ${globalData>/togglePanelVisibility} === 'X' ? '100%' : '50%' }" resizable="false"/>
 								</layoutData>
 							</Panel>
 						</l:Splitter>

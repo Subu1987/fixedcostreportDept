@@ -106,6 +106,9 @@
 			"columnVisible": {
 				"type": "sap.ui.model.json.JSONModel"
 			},
+			"columnVisible2": {
+				"type": "sap.ui.model.json.JSONModel"
+			},
 			"ledgerData": {
 				"type": "sap.ui.model.json.JSONModel"
 			},
