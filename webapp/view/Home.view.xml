@@ -388,7 +388,7 @@
 										<Text text="Chart"/>
 									</Column>
 									<Column width="100px" visible="{columnVisible2>/TotalActualBud}">
-										<Text text="Total Actual Budget"/>
+										<Text text="Total Actual"/>
 									</Column>
 									<Column width="100px" visible="{columnVisible2>/TotalReleasedBud}">
 										<Text text="Total Released Budget"/>

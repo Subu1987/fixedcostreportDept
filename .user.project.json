@@ -16,10 +16,7 @@
         "id": 8398753,
         "runnerId": "webapprunner",
         "displayName": "Run index.html",
-<<<<<<< HEAD
-        "lastRunTimeStamp": 1724394150883
-=======
-        "lastRunTimeStamp": 1724326228839
+        "lastRunTimeStamp": 1724667094087
       }
     },
     {
@@ -38,7 +35,6 @@
         "runnerId": "fiorirunner",
         "displayName": "Run Component.js",
         "lastRunTimeStamp": 1724326094716
->>>>>>> sumanDevBackup
       }
     }
   ]

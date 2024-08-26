@@ -312,6 +312,9 @@ sap.ui.define([
 			return `${day}.${month}.${year}`;
 		},
 		onLiveChange: function(oEvent) {
+			
+			var oDeptCodeDataModel = this.getOwnerComponent().getModel("deptData");
+			var oGlobalDataModel = this.getOwnerComponent().getModel("globalData");
 			var oInput = oEvent.getSource();
 			var sInputId = oInput.getId();
 			var sInputValue = oInput.getValue();
@@ -334,10 +337,19 @@ sap.ui.define([
 			} else if (sInputId.endsWith("--inputDept")) {
 				sProperty = "/Dept";
 			}
+			
+			/// 26.08.2024 Department Description add as chart Title
+			for(var i=0;i<oDeptCodeDataModel.oData.length;i++)
+			{
+				if(oDeptCodeDataModel.oData[i].Key===sInputValue.toUpperCase())
+				{
+					oGlobalDataModel.setProperty("/DeptDescription", oDeptCodeDataModel.oData[i].Value);
+				}
+			}
 
 			// Update the global data model property
 			if (sProperty) {
-				var oGlobalDataModel = this.getOwnerComponent().getModel("globalData");
+				// var oGlobalDataModel = this.getOwnerComponent().getModel("globalData");
 				if (oGlobalDataModel) {
 					oGlobalDataModel.setProperty(sProperty, sInputValue);
 				}
@@ -889,6 +901,7 @@ sap.ui.define([
 			if (oSelectedItem) {
 				var ledgerInput = this.byId(this._deptInputId);
 				var newValue = oSelectedItem.getTitle();
+				var newDeptDescription=oSelectedItem.getDescription();
 				ledgerInput.setValue(newValue);
 
 				//chk the blank input box validation
@@ -902,6 +915,7 @@ sap.ui.define([
 				var oGlobalDataModel = this.getOwnerComponent().getModel("globalData");
 				if (oGlobalDataModel) {
 					oGlobalDataModel.setProperty("/Dept", newValue);
+					oGlobalDataModel.setProperty("/DeptDescription", newDeptDescription);  /// 26.08.2024 Department Description add as chart Title
 				}
 			}
 			oEvent.getSource().getBinding("items").filter([]);
@@ -1260,7 +1274,7 @@ sap.ui.define([
 				urlParameters: {
 					"sap-client": "400"
 				},
-				filters: [cmpnyCode, reportS, fromDate, toDate, Dept, listS, GLGrp],
+				filters: [cmpnyCode, reportS, fromDate, toDate, GL,Dept, listS, GLGrp],
 				success: function(response) {
 					var oData = response.results;
 					console.log(oData);
@@ -1655,6 +1669,7 @@ sap.ui.define([
 		},
 		extractData2: function(obj) {
 			var oDeptNameData = this.getOwnerComponent().getModel("deptNameData").getData();
+			var oGlobalData = this.getOwnerComponent().getModel("globalData").getData();
 			var result = [];
 			var months = ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'];
 			// Combine incoming and outgoing balances for each month
@@ -1679,7 +1694,7 @@ sap.ui.define([
 			oVizFrame.setVizProperties({
 				title: {
 					visible: true,
-					text: obj.Dept
+					text: oGlobalData.DeptDescription
 				},
 				legend: {
 					title: {
