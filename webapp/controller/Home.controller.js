@@ -390,8 +390,8 @@ sap.ui.define([
 			data.GlText = false;
 			data.GlAcGroup = true;
 			data.Posid = false;
-			data.Total = false;
-			data.TotalPlnB = false;
+			data.TotalActualBud = true;
+			data.TotalReleasedBud = true;
 			data.graphColumnVisible = false;
 			for (var i = 1; i <= 16; i++) {
 				var key = "l" + (i < 10 ? '0' + i : i) + "VFlag";
