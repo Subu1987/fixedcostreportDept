@@ -115,6 +115,9 @@
 			"companyCodeData": {
 				"type": "sap.ui.model.json.JSONModel"
 			},
+			"companyCodeData2": {
+				"type": "sap.ui.model.json.JSONModel"
+			},
 			"yearData": {
 				"type": "sap.ui.model.json.JSONModel"
 			},

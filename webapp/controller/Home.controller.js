@@ -21,11 +21,12 @@ sap.ui.define([
 			// Initialize the user ID and other parameters
 			this._initializeAppData();
 
+			// Set up UI components visibility
+			this._columnVisible();
+
 			// Update the global data model
 			this._updateGlobalDataModel();
 
-			// Set up UI components visibility
-			this._columnVisible();
 		},
 
 		_initializeAppData: function() {
@@ -74,27 +75,27 @@ sap.ui.define([
 			var oGlobalDataModel = this.getOwnerComponent().getModel("globalData");
 			if (oGlobalDataModel) {
 				oGlobalDataModel.setProperty("/userId", sUserId || "");
-				
+
 				// Call userAuthSet after the userId is set
-                this.userAuthSet();
+				this.userAuthSet();
 			} else {
 				console.error("Global data model is not available.");
 			}
 		},
-		
-		userAuthSet: function(){
+
+		userAuthSet: function() {
 			var that = this;
 			var oModel = this.getOwnerComponent().getModel();
 			var oGlobalData = this.getOwnerComponent().getModel("globalData").getData();
 			var oUrl = "/AUTHSet(UNAME='" + oGlobalData.userId + "')";
-			
+
 			sap.ui.core.BusyIndicator.show();
 
 			oModel.read(oUrl, {
 				urlParameters: {
 					"sap-client": "400"
 				},
-				
+
 				success: function(response) {
 					var oData = response;
 					console.log(oData);
@@ -112,6 +113,8 @@ sap.ui.define([
 					} else {
 						/*that._assignVisiblity(oData, that);*/
 
+						///// Authorization Changes /////////
+						that.authorizationCheck();
 						// hide the busy indicator
 						sap.ui.core.BusyIndicator.hide();
 					}
@@ -125,11 +128,73 @@ sap.ui.define([
 				}
 			});
 		},
+		authorizationCheck: function() {
+			var oAuthDataModel = this.getOwnerComponent().getModel("authData");
+			var oGlobalDataModel = this.getOwnerComponent().getModel("globalData");
+			var oAuthData = oAuthDataModel.oData;
 
+			////// Authorization Change ////////
+			if (oAuthData.PRS === "X") {
+				oGlobalDataModel.setProperty("/reportS", "PRS");
+				this.byId("PRS").setSelected(true);
+			} else if (oAuthData.FTRS === "X") {
+				oGlobalDataModel.setProperty("/reportS", "FTRS");
+				this.byId("FTRS").setSelected(true);
+			} else if (oAuthData.CORP === "X") {
+				oGlobalDataModel.setProperty("/reportS", "CORP");
+				this.byId("CORP").setSelected(true);
+			} else if (oAuthData.TOTAL === "X") {
+				oGlobalDataModel.setProperty("/reportS", "TOTAL");
+				this.byId("companytotal").setSelected(true);
+			}
+
+			var compCode = [];
+			var compArr = [];
+			// if (oAuthData.TOTAL_1100 === "X" && oAuthData.TOTAL_1500 === "X") {
+
+			// 	compCode.push({
+			// 		Companycode: "1100"
+			// 	});
+			// 	compCode.push({
+			// 		Companycode: "1500"
+			// 	});
+
+			// } else if (oAuthData.TOTAL_1100 === "X" && oAuthData.TOTAL_1500 === "") {
+			// 	compCode.push({
+			// 		Companycode: "1100"
+			// 	});
+
+			// } else if (oAuthData.TOTAL_1100 === "" && oAuthData.TOTAL_1500 === "X") {
+			// 	compCode.push({
+			// 		Companycode: "1500"
+			// 	});
+
+			// } else {
+			// 	compCode.push({
+			// 		Companycode: ""
+			// 	});
+			// }
+			// this.getOwnerComponent().getModel("companyCodeData2").setData(compCode);
+
+			compArr = Object.entries(oAuthData); 		//// Convert Object Data into Array ////
+			for (var i = 0; i < compArr.length; i++) {
+				if (compArr[i][0].includes("TOTAL_") && compArr[i][1] === "X") {
+					var oCode = compArr[i][0].slice(6);
+					compCode.push({
+						Companycode: oCode
+					})
+				}
+			}
+			if (compCode.length > 0) {
+				this.byId("inputCompanyCode").setValue(compCode[0].Companycode); /// For set default value in Company Code Box
+			}
+			this.getOwnerComponent().getModel("companyCodeData2").setData(compCode);
+
+		},
 		_updateGlobalDataModel: function() {
 			var oGlobalDataModel = this.getOwnerComponent().getModel("globalData");
 			if (oGlobalDataModel) {
-				oGlobalDataModel.setProperty("/reportS", "PRS");
+				// oGlobalDataModel.setProperty("/reportS", "PRS");
 				oGlobalDataModel.setProperty("/listS", "X");
 				oGlobalDataModel.setProperty("/togglePanelVisibility", "X");
 				oGlobalDataModel.setProperty("/pdfTableName", "Detailed List");
@@ -312,7 +377,7 @@ sap.ui.define([
 			return `${day}.${month}.${year}`;
 		},
 		onLiveChange: function(oEvent) {
-			
+
 			var oDeptCodeDataModel = this.getOwnerComponent().getModel("deptData");
 			var oGlobalDataModel = this.getOwnerComponent().getModel("globalData");
 			var oInput = oEvent.getSource();
@@ -337,12 +402,10 @@ sap.ui.define([
 			} else if (sInputId.endsWith("--inputDept")) {
 				sProperty = "/Dept";
 			}
-			
+
 			/// 26.08.2024 Department Description add as chart Title
-			for(var i=0;i<oDeptCodeDataModel.oData.length;i++)
-			{
-				if(oDeptCodeDataModel.oData[i].Key===sInputValue.toUpperCase())
-				{
+			for (var i = 0; i < oDeptCodeDataModel.oData.length; i++) {
+				if (oDeptCodeDataModel.oData[i].Key === sInputValue.toUpperCase()) {
 					oGlobalDataModel.setProperty("/DeptDescription", oDeptCodeDataModel.oData[i].Value);
 				}
 			}
@@ -613,7 +676,8 @@ sap.ui.define([
 			this._companyCodeInputId = oEvent.getSource().getId();
 			// open fragment
 			if (!this.oOpenDialogComapanyCode) {
-				this.oOpenDialogComapanyCode = sap.ui.xmlfragment("com.infocus.fixedCostReportDept.view.dialogComponent.DialogComapanyCode", this);
+				this.oOpenDialogComapanyCode = sap.ui.xmlfragment("com.infocus.fixedCostReportDept.view.dialogComponent.DialogComapanyCode",
+					this);
 				this.getView().addDependent(this.oOpenDialogComapanyCode);
 			}
 			this.oOpenDialogComapanyCode.open();
@@ -901,7 +965,7 @@ sap.ui.define([
 			if (oSelectedItem) {
 				var ledgerInput = this.byId(this._deptInputId);
 				var newValue = oSelectedItem.getTitle();
-				var newDeptDescription=oSelectedItem.getDescription();
+				var newDeptDescription = oSelectedItem.getDescription();
 				ledgerInput.setValue(newValue);
 
 				//chk the blank input box validation
@@ -915,7 +979,7 @@ sap.ui.define([
 				var oGlobalDataModel = this.getOwnerComponent().getModel("globalData");
 				if (oGlobalDataModel) {
 					oGlobalDataModel.setProperty("/Dept", newValue);
-					oGlobalDataModel.setProperty("/DeptDescription", newDeptDescription);  /// 26.08.2024 Department Description add as chart Title
+					oGlobalDataModel.setProperty("/DeptDescription", newDeptDescription); /// 26.08.2024 Department Description add as chart Title
 				}
 			}
 			oEvent.getSource().getBinding("items").filter([]);
@@ -1274,7 +1338,7 @@ sap.ui.define([
 				urlParameters: {
 					"sap-client": "400"
 				},
-				filters: [cmpnyCode, reportS, fromDate, toDate, GL,Dept, listS, GLGrp],
+				filters: [cmpnyCode, reportS, fromDate, toDate, GL, Dept, listS, GLGrp],
 				success: function(response) {
 					var oData = response.results;
 					console.log(oData);
@@ -1398,7 +1462,7 @@ sap.ui.define([
 						if (oAction === sap.m.MessageBox.Action.OK) {
 							// Clear input fields
 							/*that.byId("inputLedger").setValue("0L");*/
-							that.byId("inputCompanyCode").setValue("1100");
+							// that.byId("inputCompanyCode").setValue("1100");  //// Authorization Change ////
 							that.byId("fromDate").setValue("");
 							that.byId("toDate").setValue("");
 							that.byId("inputGL").setValue("");
@@ -1411,10 +1475,13 @@ sap.ui.define([
 							that.byId("inputToPeriod").setValue("12");*/
 
 							// Deselect radio buttons
-							that.byId("PRS").setSelected(true);
-							that.byId("FTRS").setSelected(false);
-							that.byId("CORP").setSelected(false);
-							that.byId("companytotal").setSelected(false);
+							// that.byId("PRS").setSelected(true);
+							// that.byId("FTRS").setSelected(false);
+							// that.byId("CORP").setSelected(false);
+							// that.byId("companytotal").setSelected(false);
+
+							/////  Authorization Changes //////
+							that.authorizationCheck();
 							that.byId("detailedlist").setSelected(true);
 							that.byId("summarylist").setSelected(false);
 

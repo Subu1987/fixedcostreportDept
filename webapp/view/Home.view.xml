@@ -17,7 +17,7 @@
 								<HBox direction="Column" width="18%">
 									<Label text="Company Code" design="Bold"/>
 									<Input id="inputCompanyCode" class="sapUiSmallMarginBottom" type="Text" placeholder="Enter Value" showValueHelp="true"
-										valueHelpRequest="handleValueCompanyCode" value="1100" required="true" liveChange="onLiveChange"/>
+										valueHelpRequest="handleValueCompanyCode" value="" required="true" liveChange="onLiveChange"/>
 								</HBox>
 								<HBox direction="Column" width="18%">
 									<Label text="From Date" design="Bold"/>
