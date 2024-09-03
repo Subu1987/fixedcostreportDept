@@ -504,10 +504,10 @@ sap.ui.define([
 					console.log(pData);
 					sap.ui.core.BusyIndicator.hide();
 					// set the ledger data 
-					
+
 					var ocompanyCodeDataModel = that.getOwnerComponent().getModel("companyCodeData");
 					ocompanyCodeDataModel.setData(pData);
-					
+
 					// set the default input value in company code
 					var inputCompanyCode = that.byId("inputCompanyCode");
 					inputCompanyCode.setValue(pData[0].Companycode);
@@ -1464,8 +1464,10 @@ sap.ui.define([
 						if (oAction === sap.m.MessageBox.Action.OK) {
 							// Clear input fields
 							/*that.byId("inputLedger").setValue("0L");*/
-							that.byId("inputCompanyCode").setValue("1100"); //// Authorization Change ////
-							that.totalRadioBtnCheck("1100");
+							var ocompanyCodeDataModel = that.getOwnerComponent().getModel("companyCodeData");
+							var oCmpCodeData = ocompanyCodeDataModel.oData;
+							that.byId("inputCompanyCode").setValue(oCmpCodeData[0].Companycode); //// Authorization Change ////
+							that.totalRadioBtnCheck(oCmpCodeData[0].Companycode);
 							that.byId("fromDate").setValue("");
 							that.byId("toDate").setValue("");
 							that.byId("inputGL").setValue("");
