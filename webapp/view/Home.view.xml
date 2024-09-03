@@ -115,171 +115,171 @@
 					<ScrollContainer horizontal="true" vertical="true" width="100%" height="auto">
 						<l:Splitter id="splitter" height="450px">
 							<Table headerText="{globalData>/reportS} {globalData>/modifyFromDate} - {globalData>/modifyToDate} Tabular Data(in Lacs)" id="dynamicTable"
-								items="{listData>/}" fixedLayout="true" width="auto" class="pdfTable">
+								items="{listData>/}" fixedLayout="true" width="auto" class="pdfTable boldText">
 								<columns>
 									<Column width="100px" visible="{columnVisible>/Racct}">
-										<Text text="G/L Acct"/>
+										<Text text="G/L Acct" class="boldText"/>
 									</Column>
 									<Column width="200px" visible="{columnVisible>/GlText}">
-										<Text text="G/L Acct Long Text"/>
+										<Text text="G/L Acct Long Text" class="boldText"/>
 									</Column>
 									<Column width="200px" visible="{columnVisible>/GlAcGroup}">
-										<Text text="G/L Group"/>
+										<Text text="G/L Group" class="boldText"/>
 									</Column>
 									<Column width="200px" visible="{columnVisible>/Posid}">
-										<Text text="WBS Element"/>
+										<Text text="WBS Element" class="boldText"/>
 									</Column>
 									<Column width="80px" visible="{columnVisible>/graphColumnVisible}">
-										<Text text="Chart"/>
+										<Text text="Chart" class="boldText"/>
 									</Column>
 									<Column width="100px" visible="{columnVisible>/Total}">
-										<Text text="Total"/>
+										<Text text="Total" class="boldText"/>
 									</Column>
 									<Column width="200px" visible="{columnVisible>/TotalPlnB}">
-										<Text text="TOTAL PLANING BUDGET"/>
+										<Text text="TOTAL PLANING BUDGET" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept01Flag}" width="80px">
-										<Text text="CADM"/>
+										<Text text="CADM" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept02Flag}" width="80px">
-										<Text text="CBCO"/>
+										<Text text="CBCO" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept03Flag}" width="80px">
-										<Text text="CCEO"/>
+										<Text text="CCEO" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept04Flag}" width="80px">
-										<Text text="CDOG"/>
+										<Text text="CDOG" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept05Flag}" width="80px">
-										<Text text="CFA"/>
+										<Text text="CFA" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept06Flag}" width="80px">
-										<Text text="CGH"/>
+										<Text text="CGH" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept07Flag}" width="80px">
-										<Text text="CGR"/>
+										<Text text="CGR" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept08Flag}" width="80px">
-										<Text text="CIM"/>
+										<Text text="CIM" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept09Flag}" width="80px">
-										<Text text="CIT"/>
+										<Text text="CIT" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept10Flag}" width="80px">
-										<Text text="CLSE"/>
+										<Text text="CLSE" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept11Flag}" width="80px">
-										<Text text="CMO"/>
+										<Text text="CMO" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept12Flag}" width="80px">
-										<Text text="CSJV"/>
+										<Text text="CSJV" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept13Flag}" width="80px">
-										<Text text="CSVG"/>
+										<Text text="CSVG" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept14Flag}" width="80px">
-										<Text text="ADM"/>
+										<Text text="ADM" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept15Flag}" width="80px">
-										<Text text="COB"/>
+										<Text text="COB" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept16Flag}" width="80px">
-										<Text text="EHS"/>
+										<Text text="EHS" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept17Flag}" width="80px">
-										<Text text="FAA"/>
+										<Text text="FAA" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept18Flag}" width="80px">
-										<Text text="GMT"/>
+										<Text text="GMT" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept19Flag}" width="80px">
-										<Text text="HIC"/>
+										<Text text="HIC" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept20Flag}" width="80px">
-										<Text text="MAM"/>
+										<Text text="MAM" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept21Flag}" width="80px">
-										<Text text="MCC"/>
+										<Text text="MCC" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept22Flag}" width="80px">
-										<Text text="MCI"/>
+										<Text text="MCI" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept23Flag}" width="80px">
-										<Text text="MEM"/>
+										<Text text="MEM" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept24Flag}" width="80px">
-										<Text text="MMT"/>
+										<Text text="MMT" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept25Flag}" width="80px">
-										<Text text="OPE"/>
+										<Text text="OPE" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept26Flag}" width="80px">
-										<Text text="PMT"/>
+										<Text text="PMT" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept27Flag}" width="80px">
-										<Text text="QAC"/>
+										<Text text="QAC" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept28Flag}" width="80px">
-										<Text text="SCM"/>
+										<Text text="SCM" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept29Flag}" width="80px">
-										<Text text="UDCH"/>
+										<Text text="UDCH" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept30Flag}" width="80px">
-										<Text text="UDPU"/>
+										<Text text="UDPU" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept31Flag}" width="80px">
-										<Text text="UFA"/>
+										<Text text="UFA" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept32Flag}" width="80px">
-										<Text text="UFI"/>
+										<Text text="UFI" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept33Flag}" width="80px">
-										<Text text="UGMT"/>
+										<Text text="UGMT" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept34Flag}" width="80px">
-										<Text text="UHIC"/>
+										<Text text="UHIC" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept35Flag}" width="80px">
-										<Text text="UMMT"/>
+										<Text text="UMMT" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept36Flag}" width="80px">
-										<Text text="UOEP"/>
+										<Text text="UOEP" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept37Flag}" width="80px">
-										<Text text="UOMI"/>
+										<Text text="UOMI" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept38Flag}" width="80px">
-										<Text text="UPMC"/>
+										<Text text="UPMC" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept39Flag}" width="80px">
-										<Text text="UPME"/>
+										<Text text="UPME" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept40Flag}" width="80px">
-										<Text text="UPMM"/>
+										<Text text="UPMM" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept41Flag}" width="80px">
-										<Text text="UPMT"/>
+										<Text text="UPMT" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept42Flag}" width="80px">
-										<Text text="UPRP"/>
+										<Text text="UPRP" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept43Flag}" width="80px">
-										<Text text="UQAC"/>
+										<Text text="UQAC" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept44Flag}" width="80px">
-										<Text text="USMG"/>
+										<Text text="USMG" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible>/dept45Flag}" width="80px">
-										<Text text="UWIL"/>
+										<Text text="UWIL" class="boldText"/>
 									</Column>
 								</columns>
 								<items>
 									<ColumnListItem class="sapMListTblRow">
 										<cells>
-											<Text text="{listData>Racct}"/>
-											<Text text="{listData>GlText}"/>
-											<Text text="{listData>GlAcGroup}"/>
+											<Text text="{listData>Racct}" class="boldText"/>
+											<Text text="{listData>GlText}" class="boldText"/>
+											<Text text="{listData>GlAcGroup}" class="boldText"/>
 											<Text text="{listData>Posid}"/>
 											<Button id="chartButton" class="chartButton" icon="sap-icon://vertical-bar-chart" text="" press="onChartButtonPress"/>
 											<Text text="{listData>Total}"/>
