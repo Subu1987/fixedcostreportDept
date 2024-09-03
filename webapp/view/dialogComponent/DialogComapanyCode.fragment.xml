@@ -1,14 +1,14 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
     <SelectDialog
         title="Select Company Code"
-        items="{companyCodeData2>/}"
+        items="{companyCodeData>/}"
         search="_handleValueCompanyCodeSearch"
         confirm="_handleValueCompanyCodeClose"
         cancel="_handleValueCompanyCodeClose"
         contentWidth="auto"
         class="sapUiPopupWithPadding">
         <StandardListItem
-            title="{companyCodeData2>Companycode}"
+            title="{companyCodeData>Companycode}"
             description=""
             iconDensityAware="false"
             iconInset="false" />
