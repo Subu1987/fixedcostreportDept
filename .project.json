@@ -40,12 +40,12 @@
     "blockPushLevel": "Error"
   },
   "build": {
-    "buildRequired": true,
+    "buildRequired": false,
     "sourceFolder": "webapp",
     "targetFolder": "dist",
     "excludedFolders": [],
     "excludedFiles": [],
-    "lastBuildDateTime": "Sat, 27 Jul 2024 08:26:47 GMT"
+    "lastBuildDateTime": "Tue, 03 Sep 2024 11:53:35 GMT"
   },
   "mockpreview": {
     "mockUri": "/sap/opu/odata/sap/ZFI_FCR_SRV/",
@@ -56,6 +56,6 @@
   },
   "deploy": {
     "destination": "DEV",
-    "name": "zfixedCostDept"
+    "name": "ZFIXEDCOSTDEPT"
   }
 }

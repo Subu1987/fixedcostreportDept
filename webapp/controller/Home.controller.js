@@ -41,7 +41,7 @@ sap.ui.define([
 			var that = this;
 
 			// the application is running within the Fiori Launchpad
-			if (sap.ushell && sap.ushell.Container) {
+			/*if (sap.ushell && sap.ushell.Container) {
 				sap.ushell.Container.getServiceAsync("UserInfo").then(function(UserInfo) {
 						var userId = UserInfo.getId();
 						console.log(UserInfo);
@@ -52,7 +52,7 @@ sap.ui.define([
 						MessageBox.error("Error retrieving ShellUIService: " + oError.message);
 						console.error("Error retrieving ShellUIService: ", oError);
 					});
-			} else {
+			} else {*/
 				// Fallback method using AJAX to call /sap/bc/ui2/start_up
 				jQuery.ajax({
 					url: "/sap/bc/ui2/start_up",
@@ -68,7 +68,7 @@ sap.ui.define([
 					}
 				});
 
-			}
+			/*}*/
 		},
 
 		_onGlobalUserIdSet: function(sUserId) {
