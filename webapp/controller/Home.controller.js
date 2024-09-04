@@ -1464,8 +1464,13 @@ sap.ui.define([
 						if (oAction === sap.m.MessageBox.Action.OK) {
 							// Clear input fields
 							/*that.byId("inputLedger").setValue("0L");*/
-							that.byId("inputCompanyCode").setValue("1100"); //// Authorization Change ////
-							that.totalRadioBtnCheck("1100");
+							var oCompanyCodeDataModel = that.getOwnerComponent().getModel("companyCodeData");
+							var oCompCode=oCompanyCodeDataModel.oData[0].Companycode;                   
+							that.byId("inputCompanyCode").setValue(oCompCode); //// Authorization Change ////
+							that.totalRadioBtnCheck(oCompCode);
+							/////  Authorization Changes //////
+							that.authorizationCheck();
+							
 							that.byId("fromDate").setValue("");
 							that.byId("toDate").setValue("");
 							that.byId("inputGL").setValue("");
@@ -1483,8 +1488,6 @@ sap.ui.define([
 							// that.byId("CORP").setSelected(false);
 							// that.byId("companytotal").setSelected(false);
 
-							/////  Authorization Changes //////
-							that.authorizationCheck();
 							that.byId("detailedlist").setSelected(true);
 							that.byId("summarylist").setSelected(false);
 

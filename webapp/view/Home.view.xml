@@ -376,113 +376,113 @@
 						</l:Splitter>
 						<l:Splitter id="splitter2" height="450px" visible="false">
 							<Table headerText="{globalData>/reportS} {globalData>/modifyFromDate} - {globalData>/modifyToDate} Tabular Data(in Lacs)" id="dynamicTable2"
-								items="{listData>/}" fixedLayout="true" width="auto" class="pdfTable">
+								items="{listData>/}" fixedLayout="true" width="auto" class="pdfTable boldText">
 								<columns>
 									<Column width="200px" visible="{columnVisible2>/GlAcGroup}">
-										<Text text="G/L Group"/>
+										<Text text="G/L Group" class="boldText"/>
 									</Column>
 									<Column width="200px" visible="{columnVisible2>/Posid}">
-										<Text text="WBS Element"/>
+										<Text text="WBS Element" class="boldText"/>
 									</Column>
 									<Column width="80px" visible="{columnVisible2>/graphColumnVisible}">
-										<Text text="Chart"/>
+										<Text text="Chart" class="boldText"/>
 									</Column>
 									<Column width="100px" visible="{columnVisible2>/TotalActualBud}">
-										<Text text="Total Actual"/>
+										<Text text="Total Actual" class="boldText"/>
 									</Column>
 									<Column width="100px" visible="{columnVisible2>/TotalReleasedBud}">
-										<Text text="Total Released Budget"/>
+										<Text text="Total Released Budget" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible2>/l01VFlag}" width="80px">
-										<Text text="Apr Actual"/>
+										<Text text="Apr Actual" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible2>/l01VFlag}" width="80px">
-										<Text text="Apr Budget"/>
+										<Text text="Apr Budget" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible2>/l02VFlag}" width="80px">
-										<Text text="May Actual"/>
+										<Text text="May Actual" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible2>/l02VFlag}" width="80px">
-										<Text text="May Budget"/>
+										<Text text="May Budget" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible2>/l03VFlag}" width="80px">
-										<Text text="Jun Actual"/>
+										<Text text="Jun Actual" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible2>/l03VFlag}" width="80px">
-										<Text text="Jun Budget"/>
+										<Text text="Jun Budget" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible2>/l04VFlag}" width="80px">
-										<Text text="Jul Actual"/>
+										<Text text="Jul Actual" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible2>/l04VFlag}" width="80px">
-										<Text text="Jul Budget"/>
+										<Text text="Jul Budget" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible2>/l05VFlag}" width="80px">
-										<Text text="Aug Actual"/>
+										<Text text="Aug Actual" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible2>/l05VFlag}" width="80px">
-										<Text text="Aug Budget"/>
+										<Text text="Aug Budget" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible2>/l06VFlag}" width="80px">
-										<Text text="Sep Actual"/>
+										<Text text="Sep Actual" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible2>/l06VFlag}" width="80px">
-										<Text text="Sep Budget"/>
+										<Text text="Sep Budget" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible2>/l07VFlag}" width="80px">
-										<Text text="Oct Actual"/>
+										<Text text="Oct Actual" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible2>/l07VFlag}" width="80px">
-										<Text text="Oct Budget"/>
+										<Text text="Oct Budget" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible2>/l08VFlag}" width="80px">
-										<Text text="Nov Actual"/>
+										<Text text="Nov Actual" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible2>/l08VFlag}" width="80px">
-										<Text text="Nov Budget"/>
+										<Text text="Nov Budget" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible2>/l09VFlag}" width="80px">
-										<Text text="Dec Actual"/>
+										<Text text="Dec Actual" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible2>/l09VFlag}" width="80px">
-										<Text text="Dec Budget"/>
+										<Text text="Dec Budget" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible2>/l10VFlag}" width="80px">
-										<Text text="Jan Actual"/>
+										<Text text="Jan Actual" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible2>/l10VFlag}" width="80px">
-										<Text text="Jan Budget"/>
+										<Text text="Jan Budget" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible2>/l11VFlag}" width="80px">
-										<Text text="Feb Actual"/>
+										<Text text="Feb Actual" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible2>/l11VFlag}" width="80px">
-										<Text text="Feb Budget"/>
+										<Text text="Feb Budget" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible2>/l12VFlag}" width="80px">
-										<Text text="Mar Actual"/>
+										<Text text="Mar Actual" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible2>/l12VFlag}" width="80px">
-										<Text text="Mar Budget"/>
+										<Text text="Mar Budget" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible2>/l13VFlag}" width="80px">
-										<Text text="Specl 1"/>
+										<Text text="Specl 1" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible2>/l14VFlag}" width="80px">
-										<Text text="Specl 2"/>
+										<Text text="Specl 2" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible2>/l15VFlag}" width="80px">
-										<Text text="Specl 3"/>
+										<Text text="Specl 3" class="boldText"/>
 									</Column>
 									<Column visible="{columnVisible2>/l16VFlag}" width="80px">
-										<Text text="Specl 4"/>
+										<Text text="Specl 4" class="boldText"/>
 									</Column>
 								</columns>
 								<items>
 									<ColumnListItem class="sapMListTblRow">
 										<cells>
-											<Text text="{listData>GlAcGroup}"/>
-											<Text text="{listData>Posid}"/>
+											<Text text="{listData>GlAcGroup}" class="boldText"/>
+											<Text text="{listData>Posid}" class="boldText"/>
 											<Button id="chartButton2" class="chartButton" icon="sap-icon://vertical-bar-chart" text="" press="onChartButtonPress"/>
 											<Text text="{listData>TotalActualBud}"/>
 											<Text text="{listData>TotalReleasedBud}"/>
